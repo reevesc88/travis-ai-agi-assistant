@@ -1,0 +1,1113 @@
+You are Replit working inside the existing project files.
+
+Your task is to start the base files and structure for a new business platform called **Travis**.
+
+Do not try to build every advanced feature in one pass. First create a clean, scalable foundation that later agents can extend.
+
+# Project name
+
+**Travis**
+
+# Product summary
+
+Travis is an AI-powered business command centre for trades, field-service businesses, contractors, and small service companies.
+
+It combines multiple business systems into one dashboard.
+
+Travis should help a business owner manage:
+
+* Calls.
+* Emails.
+* Calendar bookings.
+* Customers.
+* Jobs.
+* Quotes.
+* Invoices.
+* Materials.
+* Supplier pricing.
+* Material take-offs.
+* Drawing take-offs.
+* Staff.
+* Reports.
+* Business memory.
+* AI-assisted admin workflows.
+
+Core positioning:
+
+**Travis is your AI business co-worker. It answers, organises, quotes, schedules, follows up, and keeps the business moving.**
+
+The first version must be a working local demo with strong base architecture, realistic seeded data, placeholder integrations, and clear extension points.
+
+# First instruction
+
+Before editing files:
+
+1. Inspect the current project structure.
+2. Identify the framework, package manager, routes, components, styling approach, and existing app entry points.
+3. Preserve useful existing work.
+4. Do not blindly overwrite files.
+5. If the project is empty or unsuitable, scaffold a clean app structure.
+6. Keep changes modular and easy to review.
+
+# Preferred technical stack
+
+Use the existing stack if already started.
+
+If no usable stack exists, build with:
+
+* Frontend: Preact or React.
+* Language: TypeScript.
+* Backend: Hono or similar lightweight API.
+* Database: SQLite.
+* Validation: Zod.
+* Icons: Lucide or similar.
+* Styling: Tailwind, CSS modules, or a clean component-based CSS system.
+* Routing: URL-based routing with bookmarkable pages.
+* Local persistence: SQLite or clearly separated mock persistence if backend setup is incomplete.
+
+Do not require cloud services for the first working demo.
+
+# First build goal
+
+Create the base app and file structure for:
+
+1. A premium one-page Travis landing page.
+2. A working Travis demo dashboard.
+3. Core app shell.
+4. Sidebar navigation.
+5. Top bar.
+6. Seed data.
+7. Basic API structure or data-service abstraction.
+8. Placeholder AI provider abstraction.
+9. Placeholder supplier monitor abstraction.
+10. Placeholder take-off and drawing review modules.
+11. Clear README instructions.
+
+Prioritise working navigation and clean structure over complete business logic.
+
+# Visual direction
+
+Travis should feel like a premium industrial SaaS product.
+
+Use:
+
+* Dark theme as the default landing page style.
+* Black, graphite, white, and one strong accent colour.
+* Accent colour can be electric blue or lime.
+* Clean cards.
+* Strong typography.
+* Subtle grid lines.
+* Workflow lines.
+* Dashboard mockups.
+* Professional spacing.
+* No childish illustrations.
+* No generic startup clutter.
+* Responsive layouts for desktop, tablet, and phone.
+
+The app dashboard can use a dark professional admin theme or a light operational dashboard theme, but it must feel consistent with the brand.
+
+# Required folder structure
+
+Create or adapt a structure similar to this if suitable:
+
+```txt
+src/
+  client/
+    app.tsx
+    main.tsx
+    routes/
+      landing.tsx
+      dashboard.tsx
+      ai-assistant.tsx
+      receptionist.tsx
+      inbox.tsx
+      calendar.tsx
+      jobs.tsx
+      customers.tsx
+      quotes.tsx
+      invoices.tsx
+      materials.tsx
+      suppliers.tsx
+      takeoffs.tsx
+      drawing-review.tsx
+      business-memory.tsx
+      reports.tsx
+      settings.tsx
+    components/
+      layout/
+        app-shell.tsx
+        sidebar.tsx
+        topbar.tsx
+        mobile-nav.tsx
+      landing/
+        hero.tsx
+        problem-section.tsx
+        workflow-section.tsx
+        receptionist-section.tsx
+        supplier-takeoff-section.tsx
+        modules-section.tsx
+        pricing-section.tsx
+        demo-section.tsx
+        final-cta.tsx
+      dashboard/
+        kpi-card.tsx
+        activity-feed.tsx
+        status-badge.tsx
+        metric-panel.tsx
+      shared/
+        button.tsx
+        card.tsx
+        input.tsx
+        modal.tsx
+        table.tsx
+        toast.tsx
+        skeleton.tsx
+        empty-state.tsx
+    data/
+      seed.ts
+      mock-db.ts
+      types.ts
+    services/
+      api-client.ts
+      ai-provider.ts
+      openrouter-provider.ts
+      mock-ai-provider.ts
+      supplier-monitor.ts
+      mock-supplier-monitor.ts
+      takeoff-service.ts
+      business-memory-service.ts
+    styles/
+      globals.css
+      theme.css
+
+  server/
+    index.ts
+    db.ts
+    schema.sql
+    seed.ts
+    routes/
+      stats.ts
+      customers.ts
+      jobs.ts
+      quotes.ts
+      invoices.ts
+      materials.ts
+      suppliers.ts
+      takeoffs.ts
+      business-memory.ts
+      ai.ts
+      settings.ts
+    services/
+      ai-provider.ts
+      openrouter.ts
+      supplier-monitor.ts
+      firecrawl-placeholder.ts
+      takeoff-engine.ts
+      business-memory.ts
+```
+
+If the existing project uses another structure, adapt this structure to fit the current app instead of forcing a rewrite.
+
+# Landing page
+
+Create a premium one-page landing page for Travis.
+
+Sections, top to bottom:
+
+## Header
+
+Include:
+
+* Travis logo.
+* Tagline: AI Business Command Centre.
+* Navigation links:
+
+  * Features.
+  * How It Works.
+  * Modules.
+  * Pricing.
+  * Demo.
+* Buttons:
+
+  * View Demo.
+  * Start Building.
+
+Mobile:
+
+* Collapse links into menu.
+* Keep primary CTA visible if practical.
+
+## Hero
+
+Headline:
+
+**Your AI co-worker for calls, quotes, jobs, invoices, and follow-ups.**
+
+Subheadline:
+
+**Travis connects your business systems into one command centre, so you can spend less time chasing admin and more time running the work.**
+
+Buttons:
+
+* Launch the Demo.
+* See How Travis Works.
+
+Show a dashboard mockup with:
+
+* Today’s jobs.
+* Incoming call summary.
+* Open quotes.
+* Calendar bookings.
+* Overdue invoices.
+* AI assistant panel.
+* Supplier price alert.
+* Take-off awaiting review.
+
+## Problem section
+
+Headline:
+
+**Your business is not broken. Your systems are scattered.**
+
+Cards:
+
+* Missed calls.
+* Quotes stuck in drafts.
+* Jobs spread across calendars and messages.
+* Invoices forgotten until cash gets tight.
+* Supplier prices checked manually.
+* Material take-offs trapped in drawings, spreadsheets, and memory.
+
+## Solution section
+
+Headline:
+
+**Travis brings the work into one dashboard.**
+
+Show connected workflow cards:
+
+1. Call answered.
+2. Customer captured.
+3. Job scheduled.
+4. Supplier prices checked.
+5. Take-off reviewed.
+6. Quote drafted.
+7. Invoice sent.
+8. Follow-up tracked.
+9. Business memory updated.
+
+## AI Receptionist section
+
+Headline:
+
+**A receptionist that answers, books, and briefs you.**
+
+Mark as Premium Add-on.
+
+Show that it can:
+
+* Answer calls.
+* Capture job details.
+* Check calendar availability.
+* Book appointments.
+* Send confirmations.
+* Create draft jobs.
+* Escalate urgent calls.
+* Summarise conversations.
+
+Add provider note:
+
+Phone, SMS, and voice services may require separate provider subscriptions.
+
+## Supplier Pricing and Take-Off Intelligence section
+
+Headline:
+
+**Quote faster with supplier prices, drawing take-offs, and your own business memory.**
+
+Subheadline:
+
+**Travis keeps the materials your trade uses close to the quote. It can monitor approved supplier sources, help extract take-offs from drawings, and learn from tenders your business has already completed.**
+
+Feature cards:
+
+1. Supplier Price Monitor.
+2. Firecrawl-style crawler or future in-house scraper.
+3. Material Take-Offs.
+4. Drawing Review.
+5. Tender Memory.
+6. Quote Improvement Agent.
+
+Show a mock panel with:
+
+* Cable tray increased 5 percent.
+* 14 take-off items awaiting review.
+* Similar past tender found.
+* Quote margin below target.
+* 3 supplier prices need approval.
+
+## Modules section
+
+Headline:
+
+**Add the systems you need. Leave the rest.**
+
+Module cards:
+
+* AI Assistant.
+* Personal Receptionist.
+* Inbox Manager.
+* Calendar and Scheduling.
+* CRM.
+* Jobs.
+* Quotes.
+* Invoices.
+* Materials.
+* Suppliers.
+* Supplier Price Intelligence.
+* Material Take-Off.
+* Drawing Take-Off.
+* Business Memory.
+* Staff.
+* Reports.
+* Compliance.
+* Document Generator.
+* Business Health.
+
+Each card needs:
+
+* Icon.
+* Short description.
+* Badge:
+
+  * Core.
+  * Add-on.
+  * Premium.
+  * Coming Soon.
+  * Placeholder.
+
+## Integrations section
+
+Headline:
+
+**Connect the tools you already use.**
+
+Cards:
+
+* Google Calendar.
+* Outlook Calendar.
+* Gmail.
+* Outlook Email.
+* OpenRouter.
+* Firecrawl.
+* SMS provider placeholder.
+* Voice provider placeholder.
+* Accounting software placeholder.
+* Supplier feeds placeholder.
+
+State clearly:
+
+First version can include placeholder integrations and demo data. The architecture should be ready for real integrations later.
+
+## Pricing preview
+
+Headline:
+
+**Start simple. Add power when you need it.**
+
+Plans:
+
+### Starter
+
+For owner operators.
+
+Includes:
+
+* Dashboard.
+* Customers.
+* Jobs.
+* Quotes.
+* Invoices.
+* Basic AI assistant.
+* Basic reports.
+
+### Operator
+
+For small teams.
+
+Includes everything in Starter plus:
+
+* Calendar scheduling.
+* Staff management.
+* Materials.
+* Email assistant.
+* Advanced reports.
+* More automations.
+
+### Command Centre
+
+For businesses that want automation.
+
+Includes everything in Operator plus:
+
+* AI receptionist.
+* Phone integration.
+* SMS follow-up.
+* Supplier price monitoring.
+* Material take-off tools.
+* Document automation.
+* Premium AI options.
+* Priority support.
+
+Usage note:
+
+Some services may require third-party subscriptions, usage charges, or premium AI model access.
+
+## Demo CTA
+
+Headline:
+
+**Open the Travis demo workspace.**
+
+CTA:
+
+**Open Demo Dashboard**
+
+## Final CTA
+
+Headline:
+
+**Stop running the business from your phone notes, inbox, drawings, spreadsheets, and memory.**
+
+Subheadline:
+
+**Build your business command centre with Travis.**
+
+Buttons:
+
+* Start Building.
+* View Demo.
+
+# Demo app pages
+
+Create route stubs and base UI for these pages.
+
+## Dashboard
+
+Show KPI cards:
+
+* Today’s jobs.
+* Open quotes.
+* Overdue invoices.
+* Revenue this month.
+* AI actions completed.
+* Supplier price alerts.
+* Take-offs awaiting review.
+* Business memory items.
+
+Panels:
+
+* Calendar overview.
+* Recent activity.
+* Missed call summaries.
+* Supplier price changes.
+* Recent take-offs.
+* Quote pipeline.
+* Invoice status.
+* AI suggestions.
+
+## AI Assistant
+
+Create a command panel with example prompts:
+
+* Draft a quote from this job note.
+* Summarise today’s jobs.
+* Find overdue invoices.
+* Check supplier price changes.
+* Review this take-off.
+* Find similar past tenders.
+* Improve this quote before I send it.
+
+First version can return mock responses.
+
+Also create provider abstraction:
+
+* OpenRouter provider.
+* Mock provider fallback.
+* Future provider interface for OpenAI, Anthropic, local models, and others.
+
+Do not expose API keys in client code.
+
+Use environment variables for server-side provider keys.
+
+## Receptionist
+
+Show premium add-on UI.
+
+Fields:
+
+* Caller.
+* Phone number.
+* Job type.
+* Urgency.
+* Summary.
+* Booking status.
+* Linked customer.
+* Linked job.
+* Escalation flag.
+
+Use seeded call summaries.
+
+## Inbox
+
+Show:
+
+* Email summaries.
+* Detected action items.
+* Suggested replies.
+* Linked customers.
+* Linked jobs.
+* Priority flags.
+
+Use seeded email items.
+
+## Calendar
+
+Show:
+
+* Weekly calendar.
+* Jobs by technician.
+* Job cards.
+* Status badges.
+* Priority badges.
+* Create booking button.
+
+## Jobs
+
+Show:
+
+* Job list.
+* Search.
+* Filters.
+* Job detail shell.
+* Checklist.
+* Materials.
+* Notes.
+* Assigned staff.
+* Generate invoice action.
+
+## Customers
+
+Show:
+
+* Customer list.
+* Customer profile shell.
+* Service history.
+* Quotes.
+* Invoices.
+* Notes.
+
+## Quotes
+
+Show:
+
+* Quote list.
+* Quote builder shell.
+* Tasks.
+* Materials.
+* Labour.
+* Margin.
+* Assumptions.
+* Risk notes.
+* Status.
+* Quote preview.
+
+Include buttons for:
+
+* Use supplier prices.
+* Import take-off.
+* Find similar past tender.
+* Improve quote with AI.
+
+## Invoices
+
+Show:
+
+* Invoice list.
+* Invoice detail shell.
+* Status.
+* Due date.
+* Paid date.
+* Line items.
+* Reminder action.
+
+## Materials
+
+Show:
+
+* Material list.
+* Unit cost.
+* Supplier.
+* Stock.
+* Reorder threshold.
+* Last price update.
+
+## Suppliers
+
+Show:
+
+* Supplier source records.
+* Price changes.
+* Source.
+* Last checked date.
+* Alert history.
+* Approval queue.
+
+## Take-Offs
+
+Show:
+
+* Take-off list.
+* Drawing or document source.
+* Status.
+* Confidence score.
+* Linked quote.
+* Created date.
+* Approved date.
+* Material total.
+* Labour estimate.
+* Review button.
+
+Statuses:
+
+* Draft.
+* Needs review.
+* Approved.
+* Sent to quote.
+* Archived.
+
+## Drawing Review
+
+Create a visual shell.
+
+Show:
+
+* Drawing preview placeholder.
+* Page thumbnails.
+* Zoom controls.
+* Scale setting.
+* Markup tools.
+* Count tool placeholder.
+* Measurement tool placeholder.
+* Extracted item panel.
+* Confidence indicators.
+* Approve item button.
+* Push to quote button.
+
+State clearly:
+
+AI-assisted take-offs require user review. Travis does not finalise material quantities, pricing, or quote values without approval.
+
+## Business Memory
+
+Show:
+
+* Saved quote templates.
+* Common materials.
+* Preferred suppliers.
+* Labour rates.
+* Standard assumptions.
+* Standard exclusions.
+* Learned corrections.
+* Similar tender library.
+* Memory search.
+
+## Reports
+
+Show:
+
+* Revenue summary.
+* Quote conversion.
+* Jobs completed.
+* Outstanding invoices.
+* Supplier price movement.
+* Business health summary.
+* Take-off accuracy placeholder.
+* Manual corrections captured.
+
+## Settings
+
+Show:
+
+* Business profile.
+* AI provider settings.
+* OpenRouter API key placeholder.
+* Calendar connection placeholder.
+* Email connection placeholder.
+* Phone provider placeholder.
+* SMS provider placeholder.
+* Firecrawl provider placeholder.
+* In-house scraper provider placeholder.
+* Subscription plan.
+* Add-on toggles.
+* Labour rates.
+* Margin and overhead defaults.
+* Business memory settings.
+
+# Seed data requirements
+
+Create realistic demo data.
+
+Include at minimum:
+
+* 10 customers.
+* 6 staff or technicians.
+* 20 jobs.
+* 8 quotes.
+* 10 invoices.
+* 30 material items.
+* 8 supplier price records.
+* 10 AI activity logs.
+* 5 receptionist call summaries.
+* 5 inbox email summaries.
+* 5 take-offs.
+* 3 drawing review examples.
+* 10 business memory items.
+* 5 quote templates.
+* 5 supplier sources.
+
+Use trade and field-service examples.
+
+Include electrical, HVAC, marine electrical, industrial maintenance, and general service examples.
+
+# Supplier Price Intelligence requirements
+
+Create the base service abstraction for supplier monitoring.
+
+It must support future providers:
+
+* Firecrawl.
+* Supplier API.
+* Manual CSV import.
+* Manual Excel import.
+* In-house scraper.
+
+For now, implement mock provider behaviour only unless credentials already exist.
+
+Do not run live scraping.
+
+Do not bypass terms of service.
+
+Do not scrape login-protected sites.
+
+Do not store credentials insecurely.
+
+Data fields:
+
+* Supplier name.
+* Supplier URL.
+* Product name.
+* SKU.
+* Description.
+* Unit price.
+* Pack size.
+* Availability.
+* Lead time.
+* Last checked date.
+* Source type.
+* Confidence score.
+* Approval status.
+* Price change percentage.
+
+Important rule:
+
+Do not allow supplier price changes to silently alter approved quotes or sent invoices.
+
+# Material and Drawing Take-Off requirements
+
+Create base types, seed data, and route shells for take-offs.
+
+Material take-off item fields:
+
+* Item name.
+* Description.
+* Quantity.
+* Unit.
+* Cable size.
+* Cable length.
+* Conduit length.
+* Tray length.
+* Junction boxes.
+* Glands.
+* Fixings.
+* Switchgear.
+* Labour allowance.
+* Waste factor.
+* Supplier match.
+* Unit cost.
+* Total material cost.
+* Source reference.
+* Confidence score.
+* User approval status.
+* Notes.
+
+Drawing review must support placeholder UI for:
+
+* PDF upload later.
+* Drawing preview.
+* Page thumbnails.
+* Markups.
+* Counts.
+* Measurements.
+* Symbol detection later.
+* Cable route measurement later.
+* Export to quote later.
+
+Do not claim automatic drawing extraction is production-ready.
+
+# Business Memory and learning requirements
+
+Create a business memory service and data model.
+
+First version must use structured memory and mock retrieval.
+
+Do not claim real model training is complete.
+
+Memory types:
+
+* Common job templates.
+* Common material packs.
+* Preferred suppliers.
+* Labour rates.
+* Overhead settings.
+* Profit margin settings.
+* Standard assumptions.
+* Standard exclusions.
+* Preferred wording.
+* Common take-off rules.
+* Waste factors.
+* Travel charges.
+* Minimum callout charges.
+* Past tender examples.
+* User corrections.
+
+Future learning stages:
+
+1. Structured memory.
+2. Retrieval memory.
+3. Feedback learning.
+4. Optional private custom model training.
+
+Use this wording in UI where required:
+
+**Travis learns from your approved business history using structured memory and retrieval. Custom model training can be added later.**
+
+# AI agent requirements
+
+Create base files for:
+
+* AI provider interface.
+* OpenRouter provider.
+* Mock AI provider.
+* AI activity log.
+* AI suggestion types.
+* Quote improvement agent placeholder.
+* Take-off agent placeholder.
+* Business memory retrieval placeholder.
+
+The AI assistant should degrade safely:
+
+* If no API key exists, use mock responses.
+* If API call fails, show a clear fallback response.
+* Never expose API keys to the client.
+* Never finalise quotes, take-offs, pricing, or invoices without user approval.
+
+# Data model
+
+Create schema or type models for:
+
+* customers.
+* staff.
+* jobs.
+* job_notes.
+* job_checklist.
+* materials.
+* job_materials.
+* quotes.
+* quote_items.
+* quote_assumptions.
+* invoices.
+* invoice_lines.
+* receptionist_calls.
+* inbox_items.
+* supplier_sources.
+* supplier_products.
+* supplier_price_history.
+* supplier_crawl_runs.
+* supplier_crawl_errors.
+* takeoffs.
+* takeoff_sources.
+* takeoff_items.
+* drawing_pages.
+* drawing_markups.
+* quote_templates.
+* business_memory_items.
+* tender_examples.
+* ai_feedback.
+* model_runs.
+* model_suggestions.
+* approved_training_examples.
+* ai_activity.
+* settings.
+* subscriptions.
+
+If full SQLite schema is too much for this pass, create the schema file with core tables first and TypeScript interfaces for all planned tables.
+
+# API or data service requirements
+
+Create route stubs or service functions for:
+
+* stats.
+* customers.
+* staff.
+* jobs.
+* quotes.
+* invoices.
+* materials.
+* suppliers.
+* supplier monitor.
+* take-offs.
+* drawing review.
+* business memory.
+* receptionist.
+* inbox.
+* AI assistant.
+* reports.
+* settings.
+
+Use Zod schemas where practical.
+
+Return useful errors.
+
+# Behaviour requirements
+
+The app must:
+
+* Load with seeded data.
+* Navigate between all major pages.
+* Show dashboard KPIs.
+* Show tables and cards from seed data.
+* Use loading skeletons where practical.
+* Show empty states where data is missing.
+* Use status badges.
+* Use placeholder badges where features are not live.
+* Work on desktop, tablet, and phone.
+* Confirm before destructive delete if delete actions exist.
+* Show toast confirmation if create or edit actions exist.
+
+# Agent-friendly mode
+
+Add support for `?agent` if practical in this pass.
+
+When enabled:
+
+* Make action buttons visible.
+* Avoid hover-only controls.
+* Use clear labels.
+* Use larger click targets.
+* Avoid drag-only interactions.
+
+# Honesty requirements
+
+Clearly mark these as placeholders unless fully implemented:
+
+* Live phone answering.
+* Live SMS sending.
+* Live email access.
+* Live calendar sync.
+* Live supplier scraping.
+* Firecrawl integration.
+* In-house scraper.
+* Drawing OCR.
+* Symbol detection.
+* Automatic cable measurement.
+* Automatic material take-off.
+* Custom model training.
+* Fine-tuning.
+* Live supplier API integration.
+* Accounting software sync.
+* Payroll.
+* HR.
+* Compliance automation.
+
+Use this wording where needed:
+
+**AI-assisted take-offs require user review. Travis does not finalise material quantities, pricing, or quote values without approval.**
+
+# Implementation order
+
+Work in this order.
+
+1. Inspect the current project.
+2. Report the current structure briefly.
+3. Create or repair the app scaffold.
+4. Add core theme and layout.
+5. Add landing page.
+6. Add app shell with sidebar and topbar.
+7. Add seed data and shared types.
+8. Add dashboard page.
+9. Add route stubs for all required modules.
+10. Add supplier monitor placeholder.
+11. Add take-off and drawing review placeholders.
+12. Add business memory placeholder.
+13. Add AI provider abstraction with mock fallback and OpenRouter placeholder.
+14. Add README instructions.
+15. Run lint, typecheck, and build if available.
+16. Fix any build errors.
+17. Provide a final summary.
+
+# Do not do yet
+
+Do not spend this first pass trying to complete:
+
+* Live AI production integration.
+* Real phone answering.
+* Real email sync.
+* Real calendar sync.
+* Real supplier scraping.
+* Real drawing OCR.
+* Real custom model training.
+* Full accounting integration.
+* Full payroll.
+* Full compliance engine.
+
+Create the structure so these can be added later.
+
+# Final output required from Replit
+
+At the end, provide:
+
+* What files were created.
+* What files were modified.
+* How to run the app.
+* What routes/pages exist.
+* What is working.
+* What is placeholder only.
+* Known issues.
+* Recommended next build pass.
+
+# Success criteria
+
+The first pass is successful if:
+
+* The project runs locally.
+* The Travis landing page exists.
+* The Travis dashboard exists.
+* Navigation works.
+* Seed data appears in the UI.
+* The base module structure is clear.
+* Supplier monitoring has a safe placeholder.
+* Take-offs and drawing review have route shells.
+* Business memory has route shell and seed data.
+* AI provider abstraction exists with mock fallback.
+* The README explains how to run and extend the app.

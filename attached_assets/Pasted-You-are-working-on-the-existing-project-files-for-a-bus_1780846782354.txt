@@ -1,0 +1,877 @@
+You are working on the existing project files for a business platform called **Travis**.
+
+Before editing, inspect the current cowork file and existing project structure. Preserve any useful work already completed. Improve the business model, PRD, website structure, landing page copy, and app build plan. Do not replace everything blindly. Refactor and improve it into a stronger, clearer, more buildable product direction.
+
+# Product name
+
+**Travis**
+
+# Core concept
+
+Travis is an AI-powered business command centre for trades, field-service businesses, small contractors, and growing service companies.
+
+It combines multiple business systems into one dashboard.
+
+The goal is to help a business owner manage calls, emails, calendar bookings, quotes, jobs, invoices, customers, staff, materials, supplier pricing, reports, and admin workflows from one place.
+
+Travis should feel like a practical AI co-worker for small business operators.
+
+It should not feel like a generic chatbot.
+
+It should feel like a modular business operating system.
+
+# Product positioning
+
+Use this positioning:
+
+**Travis is your AI business co-worker. It answers, organises, quotes, schedules, follows up, and keeps the business moving.**
+
+The product should be aimed at:
+
+* Electricians.
+* HVAC businesses.
+* Plumbers.
+* Marine and industrial technicians.
+* Small contractors.
+* Field-service companies.
+* Owner operators.
+* Small teams that need admin help but cannot justify full-time office staff.
+
+# Main problem
+
+Small business owners lose time switching between too many systems.
+
+They deal with:
+
+* Missed calls.
+* Unanswered emails.
+* Messy calendars.
+* Manual quoting.
+* Job scheduling.
+* Supplier price checks.
+* Invoice follow-ups.
+* Customer records spread across tools.
+* Staff coordination.
+* Poor visibility of job status and cash flow.
+
+Travis should bring these systems together and use AI agents to reduce admin work.
+
+# Business model
+
+Travis should use a modular subscription model.
+
+Base subscription:
+
+* Core dashboard.
+* Customer management.
+* Job management.
+* Quote tracking.
+* Invoice tracking.
+* Calendar view.
+* Basic AI assistant.
+* Basic reports.
+* Local or hosted app access depending on deployment.
+
+AI model layer:
+
+* The first version should use OpenRouter free API models where possible.
+* The system should support switching AI providers later.
+* The AI layer must be abstracted so OpenRouter, OpenAI, Anthropic, local models, and other providers can be added later.
+* AI features should degrade gracefully if the free model is unavailable, slow, or rate limited.
+
+Paid add-on services:
+
+* Personal AI receptionist.
+* Phone call answering.
+* Calendar booking.
+* Email inbox assistant.
+* SMS follow-up.
+* Supplier price monitoring.
+* Advanced quoting.
+* Document generation.
+* Payroll and HR support.
+* Advanced reporting.
+* Industry-specific modules.
+* Multi-user team access.
+* Higher automation limits.
+* Premium model access.
+
+Make it clear that some services require extra subscriptions because they depend on third-party APIs, phone systems, messaging providers, email providers, storage, or premium AI models.
+
+# Key paid module idea
+
+## Personal AI Receptionist
+
+This is a premium add-on.
+
+It should:
+
+* Answer incoming calls.
+* Capture customer details.
+* Ask structured job-intake questions.
+* Check the connected calendar.
+* Offer available booking slots.
+* Create a draft job.
+* Send confirmation by SMS or email.
+* Notify the business owner.
+* Escalate urgent or unclear calls.
+* Summarise the call.
+* Attach the call summary to the customer and job record.
+
+It should connect to:
+
+* Calendar.
+* Email.
+* Customer database.
+* Job scheduler.
+* Quote system.
+* SMS provider.
+* Optional voice provider.
+
+This should be shown as one of the flagship features on the landing page.
+
+# Additional module ideas to add
+
+Add these as optional or future modules:
+
+## AI Inbox Manager
+
+* Reads connected business emails.
+* Categorises emails by urgency.
+* Drafts replies.
+* Extracts quote requests.
+* Creates customer records from email signatures.
+* Adds deadlines to the calendar.
+* Flags unpaid invoice replies.
+* Summarises long email threads.
+
+## Quote Builder Agent
+
+* Turns job notes, photos, emails, or call summaries into draft quotes.
+* Uses saved service templates.
+* Adds materials and labour.
+* Adds assumptions and exclusions.
+* Applies margin and overhead.
+* Supports risk or confidence ratings.
+* Generates a professional quote preview.
+
+## Supplier Price Agent
+
+* Tracks supplier pricing from approved sources.
+* Supports manual data entry first.
+* Supports permitted APIs or supplier feeds later.
+* Shows price changes.
+* Flags major increases.
+* Updates future quote calculations.
+* Preserves old quote pricing for audit history.
+
+## Job Scheduler Agent
+
+* Suggests available times.
+* Matches jobs to technician availability.
+* Flags travel conflicts.
+* Highlights overbooked days.
+* Supports drag and drop calendar scheduling.
+* Creates daily run sheets.
+
+## Invoice Follow-Up Agent
+
+* Tracks draft, sent, paid, and overdue invoices.
+* Sends reminder drafts.
+* Flags overdue accounts.
+* Summarises outstanding cash.
+* Links invoices to jobs and customers.
+
+## Business Health Agent
+
+* Shows cash flow.
+* Shows quote conversion.
+* Shows jobs completed.
+* Shows outstanding invoices.
+* Shows top customers.
+* Shows most profitable service types.
+* Gives weekly owner summaries.
+
+## Compliance and Audit Module
+
+* Keeps activity logs.
+* Tracks changes to quotes, jobs, prices, and invoices.
+* Stores assumptions and exclusions.
+* Supports industrial and regulated work documentation later.
+
+## Document Generator
+
+* Creates quotes.
+* Creates invoices.
+* Creates job sheets.
+* Creates SWMS placeholders.
+* Creates service reports.
+* Creates completion reports.
+* Creates executive summaries.
+
+# Product architecture
+
+Design Travis as a modular dashboard.
+
+Core app areas:
+
+* Dashboard.
+* AI Assistant.
+* Receptionist.
+* Inbox.
+* Calendar.
+* Jobs.
+* Customers.
+* Quotes.
+* Invoices.
+* Materials.
+* Suppliers.
+* Staff.
+* Reports.
+* Settings.
+
+Use a modular “blox” or “system cards” design so each function feels like part of a connected operating system.
+
+The app should clearly show that different modules work together.
+
+Example workflow:
+
+1. Customer calls.
+2. AI receptionist answers.
+3. Call summary is created.
+4. Customer record is created or matched.
+5. Job is drafted.
+6. Calendar availability is checked.
+7. Booking confirmation is sent.
+8. Quote is created.
+9. Job is completed.
+10. Invoice is generated.
+11. Follow-up is automated.
+
+# Landing page requirement
+
+Build a premium one-page landing page for Travis.
+
+It should not look like a generic tech startup page.
+
+It should feel high trust, practical, modern, and built for real operators.
+
+The style should be:
+
+* Dark, premium, and professional.
+* Black, graphite, white, and electric blue or lime as the main accent.
+* Clean industrial SaaS feel.
+* Strong headlines.
+* Lots of spacing.
+* Sharp dashboard mockups.
+* Clear product cards.
+* No childish illustrations.
+* No clutter.
+* No overused startup gradients.
+* Use subtle grid lines, glass panels, workflow lines, and system cards.
+* Use modern sans-serif typography.
+* Use one strong accent colour consistently.
+
+The page must be responsive and look good on desktop, tablet, and phone.
+
+# Landing page structure
+
+Build the landing page from top to bottom.
+
+## Header
+
+Include:
+
+* Travis logo on the left.
+* Tagline beside it: “AI Business Command Centre”.
+* Navigation links:
+
+  * Features.
+  * How It Works.
+  * Modules.
+  * Pricing.
+  * Demo.
+* Right side buttons:
+
+  * “View Demo”.
+  * “Start Building”.
+
+On mobile, collapse nav links into a hamburger menu. Keep the main CTA visible if practical.
+
+## Hero section
+
+Create a dramatic hero section.
+
+Headline:
+
+**Your AI co-worker for calls, quotes, jobs, invoices, and follow-ups.**
+
+Subheadline:
+
+**Travis connects your business systems into one command centre, so you can spend less time chasing admin and more time running the work.**
+
+Hero buttons:
+
+* Primary: “Launch the Demo”.
+* Secondary: “See How Travis Works”.
+
+Include a dashboard mockup on the right.
+
+The mockup should show:
+
+* Today’s jobs.
+* Incoming call summary.
+* Open quotes.
+* Calendar bookings.
+* Overdue invoices.
+* AI assistant panel.
+* Supplier price alert.
+
+Include a small trust strip under the hero:
+
+* Built for trades.
+* Built for field service.
+* Built for small teams.
+* AI-assisted, owner-controlled.
+
+## Problem section
+
+Headline:
+
+**Your business is not broken. Your systems are scattered.**
+
+Show four cards:
+
+1. Missed calls.
+2. Quotes stuck in drafts.
+3. Jobs spread across calendars and messages.
+4. Invoices forgotten until cash gets tight.
+
+Each card should include a short, direct explanation.
+
+## Solution section
+
+Headline:
+
+**Travis brings the work into one dashboard.**
+
+Show a connected workflow graphic.
+
+Use this sequence:
+
+* Call answered.
+* Customer captured.
+* Job scheduled.
+* Quote drafted.
+* Materials checked.
+* Invoice sent.
+* Follow-up tracked.
+
+Each step should appear as a connected card.
+
+## AI Receptionist feature section
+
+Headline:
+
+**A receptionist that answers, books, and briefs you.**
+
+Explain that this is a premium add-on.
+
+Include feature bullets:
+
+* Answers calls.
+* Captures job details.
+* Checks calendar availability.
+* Books appointments.
+* Sends confirmations.
+* Creates job drafts.
+* Escalates urgent calls.
+* Summarises every conversation.
+
+Include a call summary mockup:
+
+Customer: Mark Ellis
+Job type: Switchboard inspection
+Urgency: High
+Preferred time: Thursday morning
+Action: Draft job created, awaiting approval
+
+Add a note:
+
+Some phone, SMS, and voice services require separate provider subscriptions.
+
+## AI Inbox section
+
+Headline:
+
+**Turn emails into actions.**
+
+Show an inbox mockup where Travis:
+
+* Finds quote requests.
+* Drafts replies.
+* Creates tasks.
+* Adds calendar reminders.
+* Links emails to customers.
+* Flags urgent messages.
+
+## Quote and job workflow section
+
+Headline:
+
+**From first contact to paid invoice.**
+
+Show three columns:
+
+1. Quote.
+2. Schedule.
+3. Invoice.
+
+Quote column:
+
+* AI-assisted quote drafts.
+* Labour and materials.
+* Assumptions.
+* Margin and overhead.
+* Risk notes.
+
+Schedule column:
+
+* Weekly calendar.
+* Technician assignment.
+* Availability.
+* Job status.
+* Run sheets.
+
+Invoice column:
+
+* Generate from completed jobs.
+* Track sent and paid.
+* Overdue reminders.
+* Revenue visibility.
+
+## Modules section
+
+Headline:
+
+**Add the systems you need. Leave the rest.**
+
+Show module cards:
+
+* AI Assistant.
+* Personal Receptionist.
+* Inbox Manager.
+* Calendar and Scheduling.
+* CRM.
+* Quotes.
+* Jobs.
+* Invoices.
+* Materials.
+* Suppliers.
+* Staff.
+* Reports.
+* Compliance.
+* Document Generator.
+* Business Health.
+
+Each card should show:
+
+* Icon.
+* Short description.
+* Badge: Core, Add-on, Coming Soon, or Premium.
+
+## Integrations section
+
+Headline:
+
+**Connect the tools you already use.**
+
+Show integration cards for:
+
+* Google Calendar.
+* Outlook Calendar.
+* Gmail.
+* Outlook Email.
+* OpenRouter.
+* SMS provider placeholder.
+* Voice provider placeholder.
+* Accounting software placeholder.
+* Supplier feeds placeholder.
+
+Make the wording clear:
+
+First version can include placeholder integrations and demo data. The architecture should be ready for real integrations later.
+
+## Pricing preview section
+
+Headline:
+
+**Start simple. Add power when you need it.**
+
+Create three plan cards.
+
+### Starter
+
+For owner operators.
+
+Includes:
+
+* Dashboard.
+* Customers.
+* Jobs.
+* Quotes.
+* Invoices.
+* Basic AI assistant.
+* Basic reports.
+
+### Operator
+
+For small teams.
+
+Includes everything in Starter plus:
+
+* Calendar scheduling.
+* Staff management.
+* Materials.
+* Email assistant.
+* Advanced reports.
+* More automations.
+
+### Command Centre
+
+For businesses that want automation.
+
+Includes everything in Operator plus:
+
+* AI receptionist.
+* Phone integration.
+* SMS follow-up.
+* Supplier price monitoring.
+* Document automation.
+* Premium AI options.
+* Priority support.
+
+Add a separate “Usage and add-ons” note:
+
+Some services may require third-party subscriptions, usage charges, or premium AI model access.
+
+## Demo section
+
+Headline:
+
+**Open the Travis demo workspace.**
+
+Describe what the demo should show:
+
+* Populated dashboard.
+* Customers.
+* Jobs.
+* Quotes.
+* Invoices.
+* Schedule.
+* Materials.
+* Supplier price alerts.
+* AI assistant panel.
+* Receptionist mock call logs.
+
+CTA:
+
+“Open Demo Dashboard”
+
+## Final CTA
+
+Headline:
+
+**Stop running the business from your phone notes, inbox, and memory.**
+
+Subheadline:
+
+**Build your business command centre with Travis.**
+
+Buttons:
+
+* “Start Building”.
+* “View Demo”.
+
+# App build requirement
+
+Alongside the landing page, build a working demo app.
+
+The demo app should have seeded data and local persistence.
+
+Use realistic field-service data.
+
+Include:
+
+* 10 customers.
+* 6 technicians or staff members.
+* 20 jobs.
+* 8 quotes.
+* 10 invoices.
+* 30 material items.
+* 8 supplier price records.
+* 10 AI activity logs.
+* 5 receptionist call summaries.
+* 5 email summaries.
+
+# App pages
+
+Build these pages:
+
+## Dashboard
+
+Show:
+
+* Today’s jobs.
+* Open quotes.
+* Overdue invoices.
+* Revenue this month.
+* AI actions completed.
+* Missed call summaries.
+* Supplier price changes.
+* Calendar overview.
+* Recent activity.
+
+## AI Assistant
+
+Show a chat-style command panel.
+
+Example prompts:
+
+* “Draft a quote from this job note.”
+* “Summarise today’s jobs.”
+* “Find overdue invoices.”
+* “Create a follow-up message.”
+* “Check supplier price changes.”
+
+For first version, responses can be simulated or use OpenRouter if configured.
+
+## Receptionist
+
+Show:
+
+* Call logs.
+* Caller name.
+* Phone number.
+* Job type.
+* Urgency.
+* Summary.
+* Booking status.
+* Linked customer.
+* Linked job.
+* Escalation flag.
+
+Include “Premium Add-on” badge.
+
+## Inbox
+
+Show:
+
+* Email summaries.
+* Detected action items.
+* Suggested replies.
+* Linked customers.
+* Linked jobs.
+* Priority flag.
+
+## Calendar
+
+Show:
+
+* Weekly calendar.
+* Jobs by time and technician.
+* Job status.
+* Priority.
+* Create booking.
+
+## Jobs
+
+Show:
+
+* Job list.
+* Job detail.
+* Checklist.
+* Materials.
+* Notes.
+* Assigned technician.
+* Status updates.
+* Generate invoice button.
+
+## Customers
+
+Show:
+
+* Customer list.
+* Customer profile.
+* Service history.
+* Quotes.
+* Invoices.
+* Notes.
+* Contact details.
+
+## Quotes
+
+Show:
+
+* Quote list.
+* Quote builder.
+* Tasks.
+* Materials.
+* Labour.
+* Margin.
+* Assumptions.
+* Risk notes.
+* Status.
+* Quote preview.
+
+## Invoices
+
+Show:
+
+* Invoice list.
+* Invoice detail.
+* Status.
+* Due date.
+* Paid date.
+* Line items.
+* Overdue reminders.
+
+## Materials
+
+Show:
+
+* Material list.
+* Unit cost.
+* Supplier.
+* Stock.
+* Reorder threshold.
+* Last price update.
+
+## Suppliers
+
+Show:
+
+* Supplier records.
+* Price changes.
+* Source.
+* Last checked date.
+* Alert history.
+
+## Reports
+
+Show:
+
+* Revenue summary.
+* Quote conversion.
+* Jobs completed.
+* Outstanding invoices.
+* Supplier price movement.
+* Business health summary.
+
+## Settings
+
+Show:
+
+* Business profile.
+* AI provider settings.
+* OpenRouter API key placeholder.
+* Calendar connection placeholder.
+* Email connection placeholder.
+* Phone provider placeholder.
+* SMS provider placeholder.
+* Subscription plan.
+* Add-on toggles.
+
+# AI provider requirement
+
+Implement an AI provider abstraction.
+
+It should support:
+
+* OpenRouter as the first provider.
+* Free model configuration.
+* API key stored in environment variables.
+* Safe fallback to mock responses if no API key exists.
+* Clear error handling if API calls fail.
+* Provider interface that can later support OpenAI, Anthropic, local models, or other APIs.
+
+Do not hard-code secrets.
+
+Do not expose API keys in client-side code.
+
+# Data model
+
+Use SQLite tables similar to:
+
+* customers.
+* staff.
+* jobs.
+* job_notes.
+* job_checklist.
+* materials.
+* job_materials.
+* quotes.
+* quote_items.
+* invoices.
+* invoice_lines.
+* receptionist_calls.
+* inbox_items.
+* supplier_prices.
+* ai_activity.
+* settings.
+* subscriptions.
+
+# Behaviour requirements
+
+The app must:
+
+* Load with realistic seeded data.
+* Persist changes locally.
+* Update dashboard stats after changes.
+* Allow customer creation.
+* Allow job creation.
+* Allow quote creation.
+* Allow invoice creation.
+* Allow simulated receptionist call records.
+* Allow simulated inbox action items.
+* Show toast confirmations.
+* Show loading skeletons.
+* Confirm before destructive delete.
+* Work on desktop, tablet, and phone.
+
+# Honesty requirements
+
+Clearly mark these as placeholders if not fully implemented:
+
+* Live phone answering.
+* Live SMS sending.
+* Live email access.
+* Live calendar sync.
+* Live supplier scraping.
+* Premium AI model access.
+* Accounting software sync.
+* Payroll.
+* HR.
+* Compliance automation.
+
+Do not pretend placeholder services are production-ready.
+
+# Final deliverable
+
+Produce a working website and demo app for Travis.
+
+The landing page should sell the product clearly.
+
+The demo dashboard should prove the business model.
+
+The code should be clean, modular, and ready to extend.
+
+Prioritise a complete working local demo over unfinished advanced features.
+
+After building, provide:
+
+* What was created.
+* How to run it.
+* Main files changed.
+* Known placeholders.
+* Next recommended build steps.
