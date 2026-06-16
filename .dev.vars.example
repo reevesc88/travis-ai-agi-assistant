@@ -1,0 +1,28 @@
+# Copy to .dev.vars for local wrangler dev (never commit .dev.vars)
+
+# Auth — optional locally; DEV_JWT_SECRET is used when unset
+# JWT_SECRET=change-me-in-production
+
+# AI — set OPENROUTER_API_KEY + ANTHROPIC_API_KEY, or MOCK_AI=1 for offline dev
+OPENROUTER_API_KEY=
+ANTHROPIC_API_KEY=
+# MOCK_AI=1
+
+# Optional providers
+OPENAI_API_KEY=
+GEMINI_API_KEY=
+
+# Google Calendar OAuth (integrations)
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+
+# Billing (Stripe)
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+STRIPE_PRICE_STARTER=
+STRIPE_PRICE_PRO=
+
+# Email (password reset, etc.)
+RESEND_API_KEY=
+FROM_EMAIL=
+APP_BASE_URL=http://127.0.0.1:8787
