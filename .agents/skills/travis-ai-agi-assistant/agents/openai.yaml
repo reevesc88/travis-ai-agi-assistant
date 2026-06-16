@@ -1,0 +1,6 @@
+interface:
+  display_name: "Travis Ai Agi Assistant"
+  short_description: "Repo-specific patterns and workflows for travis-ai-agi-assistant"
+  default_prompt: "Use the travis-ai-agi-assistant repo skill to follow existing architecture, testing, and workflow conventions."
+policy:
+  allow_implicit_invocation: true
