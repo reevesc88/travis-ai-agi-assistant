@@ -1,4 +1,24 @@
-export type View = "landing" | "dashboard" | "schedule" | "jobs" | "customers" | "technicians" | "services" | "invoices" | "materials" | "quotes" | "assistant" | "receptionist" | "inbox" | "suppliers" | "reports" | "settings";
+export type View =
+  | "landing"
+  | "login"
+  | "forgot-password"
+  | "reset-password"
+  | "profile"
+  | "dashboard"
+  | "schedule"
+  | "jobs"
+  | "customers"
+  | "technicians"
+  | "services"
+  | "invoices"
+  | "materials"
+  | "quotes"
+  | "supplier-pricing"
+  | "receptionist"
+  | "inbox"
+  | "ai-activity"
+  | "reports"
+  | "settings";
 
 export type JobStatus = "scheduled" | "confirmed" | "in_progress" | "completed" | "cancelled";
 export type Priority = "low" | "normal" | "high" | "urgent";
@@ -28,6 +48,7 @@ export interface Job {
   technician_color?: string | null;
   service_type_name?: string | null;
   service_type_color?: string | null;
+  gcal_event_id?: string | null;
   job_notes?: JobNote[];
   checklist?: ChecklistItem[];
   job_materials?: JobMaterial[];
@@ -145,6 +166,10 @@ export interface Stats {
   revenue: number;
   invoices_outstanding: number;
   invoices_overdue: number;
+  inbox_unread: number;
+  quotes_open: number;
+  quotes_value: number;
+  stale_supplier_prices: number;
 }
 
 export type QuoteStatus = "draft" | "sent" | "viewed" | "approved" | "rejected" | "expired";
@@ -183,7 +208,10 @@ export interface Quote {
   valid_until: string;
   sent_at: string;
   approved_at: string;
+  source_quote_id?: number | null;
+  source_identifier?: string | null;
   customer_name?: string;
+  job_identifier?: string;
   lines?: QuoteLine[];
   created_at: string;
   updated_at: string;
@@ -192,31 +220,33 @@ export interface Quote {
 export interface SupplierSource {
   id: number;
   name: string;
-  kind: string;
   website: string;
-  status: string;
-  last_synced: string;
+  contact_email: string;
+  notes: string;
+  active: number;
   created_at: string;
 }
 
 export interface SupplierProduct {
   id: number;
-  supplier_id: number;
-  sku: string;
+  source_id: number;
   name: string;
+  sku: string;
   unit: string;
   current_price: number;
-  previous_price: number;
-  in_stock: number;
-  supplier_name?: string;
-  change_pct?: number;
-  updated_at: string;
+  last_checked: string;
+  created_at: string;
+  source_name?: string;
+  prev_price?: number | null;
+  price_history?: SupplierPriceHistory[];
 }
 
 export interface SupplierPriceHistory {
   id: number;
-  supplier_product_id: number;
+  product_id: number;
   price: number;
+  event_type: "checked" | "changed";
+  user_email: string;
   recorded_at: string;
 }
 
@@ -224,73 +254,118 @@ export interface ReceptionistCall {
   id: number;
   caller_name: string;
   caller_phone: string;
-  customer_id: number | null;
-  direction: string;
-  status: "completed" | "missed" | "voicemail";
-  intent: string;
   summary: string;
-  transcript: string;
-  duration_seconds: number;
-  follow_up_required: number;
+  action: string;
+  customer_id: number | null;
+  job_id: number | null;
+  duration_secs: number;
   customer_name?: string;
+  job_identifier?: string;
   created_at: string;
+  ai_output_summary?: string | null;
+  ai_action_name?: string | null;
+  ai_model?: string | null;
 }
+
+export type InboxStatus = "unread" | "read" | "actioned" | "archived";
 
 export interface InboxItem {
   id: number;
-  source: "email" | "sms";
-  sender: string;
+  source: string;
   subject: string;
-  preview: string;
-  summary: string;
-  category: string;
+  body: string;
+  sender: string;
+  status: InboxStatus;
   customer_id: number | null;
-  status: "unread" | "read" | "actioned";
+  thread_id: number | null;
+  ai_summary: string;
+  ai_action: string;
   customer_name?: string;
-  received_at: string;
+  reply_count?: number;
+  unread_replies?: number;
+  latest_at?: string;
   created_at: string;
 }
 
 export interface AIActivity {
   id: number;
-  kind: "quote_draft" | "invoice_chase" | "call_summary" | "insight" | "assistant";
-  title: string;
-  detail: string;
-  status: "completed" | "pending" | "failed";
-  related_type: string;
-  related_id: number | null;
-  source: "mock" | "openrouter";
+  module: string;
+  action: string;
+  input_summary: string;
+  output_summary: string;
+  model: string;
+  tokens_used: number;
+  duration_ms: number;
   created_at: string;
 }
 
 export interface ReportSummary {
+  revenue_total: number;
   revenue_paid: number;
   revenue_outstanding: number;
   revenue_overdue: number;
-  quotes_total: number;
-  quotes_approved: number;
-  quotes_win_rate: number;
-  avg_margin_pct: number;
+  prior_revenue_paid: number | null;
+  prior_revenue_outstanding: number | null;
+  prior_revenue_overdue: number | null;
+  kpi_paid_change_pct: number | null;
+  kpi_outstanding_change_pct: number | null;
+  kpi_overdue_change_pct: number | null;
+  jobs_total: number;
   jobs_completed: number;
-  jobs_upcoming: number;
-  revenue_by_month: { month: string; total: number }[];
+  jobs_scheduled: number;
+  quotes_total: number;
+  quotes_accepted: number;
+  quotes_conversion_pct: number;
+  quotes_pipeline_total: number;
+  quotes_pipeline_draft: number;
+  quotes_pipeline_sent: number;
+  top_technicians: { technician_id: number; name: string; jobs_completed: number; revenue: number }[];
+}
+
+export interface TrendPoint {
+  period: string;
+  revenue_paid: number;
+}
+
+export interface TrendDualResponse {
+  trend_invoices: TrendPoint[];
+  trend_jobs: TrendPoint[];
+  current_total: number;
+  prior_total: number;
+  change_pct: number | null;
+}
+
+export type TrendSource = "invoices" | "jobs";
+
+export interface Settings {
+  id: number;
+  company_name: string;
+  company_phone: string;
+  company_email: string;
+  company_address: string;
+  company_logo_url: string;
+  tax_rate: number;
+  currency: string;
+  timezone: string;
+  invoice_prefix: string;
+  job_prefix: string;
+  quote_prefix: string;
+  inbox_agent_interval_hours: number;
+  ai_model: string;
+  from_email: string;
+  updated_at: string;
 }
 
 export interface Subscription {
   id: number;
-  plan: "starter" | "pro" | "scale";
-  status: "trialing" | "active" | "past_due" | "cancelled";
-  seats: number;
-  renews_at: string;
+  plan: string;
+  status: string;
+  modules: string[];
   trial_ends_at: string;
-  created_at: string;
-}
-
-export type Settings = Record<string, string>;
-
-export interface AIStatus {
-  configured: boolean;
-  source: "openrouter" | "mock";
+  renewal_date: string;
+  stripe_customer_id?: string;
+  stripe_configured?: boolean;
+  updated_at: string;
 }
 
 export interface PaginatedState {

@@ -2,7 +2,6 @@ modules = ["web", "nodejs-22"]
 [agent]
 expertMode = true
 stack = "BEST_EFFORT_FALLBACK"
-integrations = ["javascript_gemini_ai_integrations:2.0.0", "javascript_openrouter_ai_integrations:2.0.0", "javascript_anthropic_ai_integrations:2.0.0"]
 
 [nix]
 channel = "stable-25_05"
@@ -23,24 +22,17 @@ args = "Start application"
 name = "Start application"
 author = "agent"
 
-[workflows.workflow.metadata]
-outputType = "webview"
-
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = """
-printf \"OPENROUTER_API_KEY=$OPENROUTER_API_KEY
-ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY
-\" > .dev.vars && pnpm wrangler d1 execute open-fieldservice-db --local --file=src/server/schema.sql && SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt concurrently -n ui,api -c cyan,green \"vite --host 0.0.0.0 --port 5000\" \"SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt wrangler dev --port 8787\""""
+args = "pnpm wrangler d1 execute open-fieldservice-db --local --file=src/server/schema.sql && concurrently -n ui,api -c cyan,green \"vite --host 0.0.0.0 --port 5000\" \"wrangler dev --port 8787\""
 waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"
 
 [[ports]]
 localPort = 5000
 externalPort = 80
-
-[[ports]]
-localPort = 5001
-externalPort = 3000
 
 [deployment]
 deploymentTarget = "static"
@@ -50,6 +42,3 @@ publicDir = "dist"
 [postMerge]
 path = "scripts/post-merge.sh"
 timeoutMs = 60000
-
-[objectStorage]
-defaultBucketID = "replit-objstore-f842b6f5-a3f2-4c17-89b6-326be33a9daf"

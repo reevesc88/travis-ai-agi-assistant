@@ -4,11 +4,16 @@ import type { View } from "../types";
 export interface RouteState {
   view: View;
   id: string | null;
+  fromJobId: number | null;
 }
 
 const VIEW_ROUTES: Record<string, View> = {
   "": "landing",
   "landing": "landing",
+  "login": "login",
+  "forgot-password": "forgot-password",
+  "reset-password": "reset-password",
+  "profile": "profile",
   "dashboard": "dashboard",
   "schedule": "schedule",
   "jobs": "jobs",
@@ -17,26 +22,32 @@ const VIEW_ROUTES: Record<string, View> = {
   "services": "services",
   "invoices": "invoices",
   "materials": "materials",
-  "quotes": "quotes",
-  "assistant": "assistant",
-  "receptionist": "receptionist",
   "inbox": "inbox",
-  "suppliers": "suppliers",
+  "quotes": "quotes",
   "reports": "reports",
   "settings": "settings",
+  "ai-activity": "ai-activity",
+  "receptionist": "receptionist",
+  "supplier-pricing": "supplier-pricing",
 };
 
-function parseRoute(path: string): RouteState {
-  const clean = path.replace(/^\/+|\/+$/g, "");
+function parseRoute(fullPath: string): RouteState {
+  const [pathPart, queryPart] = fullPath.split("?");
+  const clean = pathPart.replace(/^\/+|\/+$/g, "").split("#")[0];
   const segments = clean.split("/");
   const viewKey = segments[0] || "";
   const view = VIEW_ROUTES[viewKey] || "landing";
   const id = segments[1] || null;
-  return { view, id };
+  const params = new URLSearchParams(queryPart ?? "");
+  const fromJobRaw = params.get("from_job");
+  const fromJobId = fromJobRaw ? parseInt(fromJobRaw, 10) || null : null;
+  return { view, id, fromJobId };
 }
 
 export function useRouter() {
-  const [route, setRoute] = useState<RouteState>(() => parseRoute(window.location.pathname));
+  const [route, setRoute] = useState<RouteState>(() =>
+    parseRoute(window.location.pathname + window.location.search)
+  );
 
   const navigate = useCallback((to: string) => {
     window.history.pushState(null, "", to);
@@ -44,7 +55,8 @@ export function useRouter() {
   }, []);
 
   useEffect(() => {
-    const handler = () => setRoute(parseRoute(window.location.pathname));
+    const handler = () =>
+      setRoute(parseRoute(window.location.pathname + window.location.search));
     window.addEventListener("popstate", handler);
     return () => window.removeEventListener("popstate", handler);
   }, []);

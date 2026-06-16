@@ -1,8 +1,13 @@
 node_modules/
 dist/
+.dev.vars
 data.db
 data.db-shm
 data.db-wal
 docs/
-.wrangler/state/
-.dev.vars
+.wrangler/
+graphify-out/
+src/graphify-out/
+awesome-copilot/
+copilot-sdk/
+OVERNIGHT.md

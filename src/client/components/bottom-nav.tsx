@@ -1,13 +1,24 @@
 import { useApp } from "../context";
-import { LayoutDashboard, Briefcase, CalendarDays, Users, FileText } from "lucide-preact";
+import { getCurrentRole } from "../auth";
+import { LayoutDashboard, Briefcase, CalendarDays, Users, FileText, UserCircle } from "lucide-preact";
 import type { View } from "../types";
 
-const bottomNavItems: { view: View; path: string; label: string; icon: typeof LayoutDashboard }[] = [
-  { view: "dashboard", path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+interface NavItem {
+  view: View;
+  path: string;
+  label: string;
+  icon: typeof LayoutDashboard;
+  ownerOnly?: boolean;
+  techOnly?: boolean;
+}
+
+const bottomNavItems: NavItem[] = [
+  { view: "dashboard", path: "/dashboard", label: "Dashboard", icon: LayoutDashboard, ownerOnly: true },
   { view: "jobs", path: "/jobs", label: "Jobs", icon: Briefcase },
   { view: "schedule", path: "/schedule", label: "Schedule", icon: CalendarDays },
-  { view: "customers", path: "/customers", label: "Customers", icon: Users },
-  { view: "invoices", path: "/invoices", label: "Invoices", icon: FileText },
+  { view: "profile", path: "/profile", label: "Profile", icon: UserCircle, techOnly: true },
+  { view: "customers", path: "/customers", label: "Customers", icon: Users, ownerOnly: true },
+  { view: "invoices", path: "/invoices", label: "Invoices", icon: FileText, ownerOnly: true },
 ];
 
 interface BottomNavProps {
@@ -16,10 +27,14 @@ interface BottomNavProps {
 
 export function BottomNav({ currentView }: BottomNavProps) {
   const { navigate, stats } = useApp();
+  const isTech = getCurrentRole() === "tech";
+  const visibleItems = bottomNavItems.filter((item) =>
+    isTech ? !item.ownerOnly : !item.techOnly
+  );
 
   return (
     <nav class="bottom-nav" aria-label="Primary">
-      {bottomNavItems.map((item) => (
+      {visibleItems.map((item) => (
         <button
           key={item.view}
           class={`bottom-nav-item ${currentView === item.view ? "active" : ""}`}

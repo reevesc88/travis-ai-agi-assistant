@@ -28,7 +28,22 @@ export interface QuoteInput {
 }
 
 export function useAppState(isAgent: boolean, navigate: (to: string) => void): AppContextValue {
-  const [stats, setStats] = useState<Stats>({ jobs: 0, customers: 0, technicians: 0, service_types: 0, today_jobs: 0, upcoming_jobs: 0, completed_jobs: 0, revenue: 0, invoices_outstanding: 0, invoices_overdue: 0 });
+  const [stats, setStats] = useState<Stats>({
+    jobs: 0,
+    customers: 0,
+    technicians: 0,
+    service_types: 0,
+    today_jobs: 0,
+    upcoming_jobs: 0,
+    completed_jobs: 0,
+    revenue: 0,
+    invoices_outstanding: 0,
+    invoices_overdue: 0,
+    inbox_unread: 0,
+    quotes_open: 0,
+    quotes_value: 0,
+    stale_supplier_prices: 0,
+  });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 

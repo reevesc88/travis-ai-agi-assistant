@@ -1,40 +1,37 @@
 import { useApp } from "../context";
-import { CalendarClock, LayoutDashboard, Briefcase, Users, Wrench, Settings, CalendarDays, FileText, Package, FileSignature, X, Sparkles, PhoneCall, Inbox, Truck, BarChart3, Cog } from "lucide-preact";
+import { getCurrentRole } from "../auth";
+import { CalendarClock, LayoutDashboard, Briefcase, Users, Wrench, Settings, CalendarDays, FileText, Package, Inbox, ClipboardList, BarChart2, X, Cog, Bot, PhoneCall, ShoppingBag, UserCircle } from "lucide-preact";
 import type { View } from "../types";
 
-interface NavItem { view: View; path: string; label: string; icon: typeof LayoutDashboard }
+interface NavItem {
+  view: View;
+  path: string;
+  label: string;
+  icon: typeof LayoutDashboard;
+  ownerOnly?: boolean;
+  techOnly?: boolean;
+}
 
-const navSections: { title: string; items: NavItem[] }[] = [
-  {
-    title: "Operations",
-    items: [
-      { view: "dashboard", path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-      { view: "schedule", path: "/schedule", label: "Schedule", icon: CalendarDays },
-      { view: "jobs", path: "/jobs", label: "Jobs", icon: Briefcase },
-      { view: "quotes", path: "/quotes", label: "Quotes", icon: FileSignature },
-      { view: "customers", path: "/customers", label: "Customers", icon: Users },
-      { view: "invoices", path: "/invoices", label: "Invoices", icon: FileText },
-    ],
-  },
-  {
-    title: "Travis AI",
-    items: [
-      { view: "assistant", path: "/assistant", label: "AI Assistant", icon: Sparkles },
-      { view: "receptionist", path: "/receptionist", label: "Receptionist", icon: PhoneCall },
-      { view: "inbox", path: "/inbox", label: "Inbox", icon: Inbox },
-    ],
-  },
-  {
-    title: "Business",
-    items: [
-      { view: "suppliers", path: "/suppliers", label: "Suppliers", icon: Truck },
-      { view: "reports", path: "/reports", label: "Reports", icon: BarChart3 },
-      { view: "technicians", path: "/technicians", label: "Technicians", icon: Wrench },
-      { view: "materials", path: "/materials", label: "Materials", icon: Package },
-      { view: "services", path: "/services", label: "Service Types", icon: Settings },
-      { view: "settings", path: "/settings", label: "Settings", icon: Cog },
-    ],
-  },
+const navItems: NavItem[] = [
+  { view: "dashboard", path: "/dashboard", label: "Dashboard", icon: LayoutDashboard, ownerOnly: true },
+  { view: "schedule", path: "/schedule", label: "Schedule", icon: CalendarDays },
+  { view: "jobs", path: "/jobs", label: "Jobs", icon: Briefcase },
+  { view: "profile", path: "/profile", label: "My Profile", icon: UserCircle, techOnly: true },
+  { view: "customers", path: "/customers", label: "Customers", icon: Users, ownerOnly: true },
+  { view: "technicians", path: "/technicians", label: "Technicians", icon: Wrench, ownerOnly: true },
+  { view: "invoices", path: "/invoices", label: "Invoices", icon: FileText, ownerOnly: true },
+  { view: "quotes", path: "/quotes", label: "Quotes", icon: ClipboardList, ownerOnly: true },
+  { view: "reports", path: "/reports", label: "Reports", icon: BarChart2, ownerOnly: true },
+  { view: "inbox", path: "/inbox", label: "Inbox", icon: Inbox, ownerOnly: true },
+  { view: "receptionist", path: "/receptionist", label: "Receptionist", icon: PhoneCall, ownerOnly: true },
+  { view: "ai-activity", path: "/ai-activity", label: "Travis AI", icon: Bot, ownerOnly: true },
+  { view: "supplier-pricing", path: "/supplier-pricing", label: "Suppliers", icon: ShoppingBag, ownerOnly: true },
+  { view: "materials", path: "/materials", label: "Materials", icon: Package, ownerOnly: true },
+  { view: "services", path: "/services", label: "Service Types", icon: Settings, ownerOnly: true },
+];
+
+const bottomNavItems: NavItem[] = [
+  { view: "settings", path: "/settings", label: "Settings", icon: Cog, ownerOnly: true },
 ];
 
 interface SidebarProps {
@@ -45,6 +42,13 @@ interface SidebarProps {
 
 export function Sidebar({ currentView, isOpen, onClose }: SidebarProps) {
   const { navigate, stats } = useApp();
+  const role = getCurrentRole();
+  const isTech = role === "tech";
+
+  const visibleNavItems = navItems.filter((item) =>
+    isTech ? !item.ownerOnly : !item.techOnly
+  );
+  const visibleBottomItems = bottomNavItems.filter((item) => !isTech || !item.ownerOnly);
 
   const handleNav = (path: string) => {
     navigate(path);
@@ -68,39 +72,57 @@ export function Sidebar({ currentView, isOpen, onClose }: SidebarProps) {
           </button>
         </div>
         <nav class="sidebar-nav">
-          {navSections.map((section) => (
-            <div key={section.title}>
-              <div class="sidebar-section-title">{section.title}</div>
-              {section.items.map((item) => (
-                <button
-                  key={item.view}
-                  class={`sidebar-item ${currentView === item.view ? "active" : ""}`}
-                  onClick={() => handleNav(item.path)}
-                >
-                  <item.icon size={15} />
-                  <span>{item.label}</span>
-                  {item.view === "jobs" && stats.jobs > 0 && (
-                    <span class="sidebar-badge">{stats.jobs}</span>
-                  )}
-                  {item.view === "customers" && stats.customers > 0 && (
-                    <span class="sidebar-badge">{stats.customers}</span>
-                  )}
-                  {item.view === "invoices" && stats.invoices_outstanding > 0 && (
-                    <span class="sidebar-badge">{stats.invoices_outstanding}</span>
-                  )}
-                </button>
-              ))}
-            </div>
+          <div class="sidebar-section-title">Navigation</div>
+          {visibleNavItems.map((item) => (
+            <button
+              key={item.view}
+              class={`sidebar-item ${currentView === item.view ? "active" : ""}`}
+              onClick={() => handleNav(
+                item.view === "supplier-pricing" && stats.stale_supplier_prices > 0
+                  ? "/supplier-pricing?stale=1"
+                  : item.path
+              )}
+            >
+              <item.icon size={15} />
+              <span>{item.label}</span>
+              {item.view === "jobs" && stats.jobs > 0 && (
+                <span class="sidebar-badge">{stats.jobs}</span>
+              )}
+              {item.view === "customers" && stats.customers > 0 && (
+                <span class="sidebar-badge">{stats.customers}</span>
+              )}
+              {item.view === "invoices" && stats.invoices_outstanding > 0 && (
+                <span class="sidebar-badge">{stats.invoices_outstanding}</span>
+              )}
+              {item.view === "inbox" && stats.inbox_unread > 0 && (
+                <span class="sidebar-badge">{stats.inbox_unread}</span>
+              )}
+              {item.view === "supplier-pricing" && stats.stale_supplier_prices > 0 && (
+                <span class="sidebar-badge sidebar-badge--warn">{stats.stale_supplier_prices}</span>
+              )}
+            </button>
           ))}
         </nav>
         <div class="sidebar-footer">
-          <div class="sidebar-stat">
-            <span class="sidebar-stat-value">{stats.today_jobs}</span>
-            <span class="sidebar-stat-label">Today</span>
-          </div>
-          <div class="sidebar-stat">
-            <span class="sidebar-stat-value">{stats.upcoming_jobs}</span>
-            <span class="sidebar-stat-label">Upcoming</span>
+          {visibleBottomItems.map((item) => (
+            <button
+              key={item.view}
+              class={`sidebar-item${currentView === item.view ? " active" : ""}`}
+              onClick={() => handleNav(item.path)}
+            >
+              <item.icon size={15} />
+              <span>{item.label}</span>
+            </button>
+          ))}
+          <div class="sidebar-stats-row">
+            <div class="sidebar-stat">
+              <span class="sidebar-stat-value">{stats.today_jobs}</span>
+              <span class="sidebar-stat-label">Today</span>
+            </div>
+            <div class="sidebar-stat">
+              <span class="sidebar-stat-value">{stats.upcoming_jobs}</span>
+              <span class="sidebar-stat-label">Upcoming</span>
+            </div>
           </div>
         </div>
       </aside>

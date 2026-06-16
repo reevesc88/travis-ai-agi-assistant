@@ -1,160 +1,107 @@
-// AI provider abstraction for Travis.
-//
-// Single provider: OpenRouter — handles both general assistant (aiComplete)
-// and autonomous programmer build planning (aiBuild). Both use the same key
-// and degrade gracefully to clearly-labelled mock responses when the key is
-// absent. On provider failure both throw a real error — never a silent fake.
+export type AISource = "openrouter" | "mock";
 
-export interface AIEnv {
+export const DEFAULT_MODEL = "anthropic/claude-3-haiku";
+
+export const ALLOWED_MODELS = [
+  "anthropic/claude-3-haiku",
+  "anthropic/claude-3.5-haiku",
+  "google/gemini-flash-1.5",
+  "google/gemini-2.0-flash-lite",
+  "mistral/mistral-small",
+  "openai/gpt-4o-mini",
+] as const;
+
+export type AllowedModel = (typeof ALLOWED_MODELS)[number];
+
+/**
+ * Validates required AI-related environment variables at the start of each
+ * request. Cloudflare Workers have no module-level startup hook, so this is
+ * the earliest feasible validation point — it runs before any route handler.
+ *
+ * Checks:
+ *   1. AI provider: either OPENROUTER_API_KEY (production) or MOCK_AI=1 (local dev)
+ *   2. ANTHROPIC_API_KEY: required for the inbox organiser agent; validated here
+ *      so a typo surfaces on the first request rather than at agent run time.
+ *
+ * Throws an explicit, actionable Error for each missing variable so operators
+ * are never left guessing why an AI feature is silent.
+ */
+export function assertAIEnv(env: {
   OPENROUTER_API_KEY?: string;
-  AI_MODEL?: string;
-}
+  MOCK_AI?: string;
+  ANTHROPIC_API_KEY?: string;
+}): void {
+  if (!env.OPENROUTER_API_KEY && env.MOCK_AI !== "1") {
+    throw new Error(
+      "Worker configuration error: no AI provider configured. " +
+      "Set OPENROUTER_API_KEY as a Worker secret (wrangler secret put OPENROUTER_API_KEY), " +
+      "or set MOCK_AI=1 in .dev.vars for local development."
+    );
+  }
 
-export interface AICompleteOptions {
-  prompt: string;
-  system?: string;
-  model?: string;
-  maxTokens?: number;
-  temperature?: number;
+  if (!env.ANTHROPIC_API_KEY && env.MOCK_AI !== "1") {
+    throw new Error(
+      "Worker configuration error: ANTHROPIC_API_KEY is not set. " +
+      "Set it as a Worker secret (wrangler secret put ANTHROPIC_API_KEY). " +
+      "It is required for the inbox organiser agent."
+    );
+  }
 }
 
 export interface AIResult {
   text: string;
-  source: "openrouter" | "mock";
-  model: string;
+  source: AISource;
 }
 
-export interface BuildStep {
-  step: number;
-  title: string;
-  detail: string;
-  code?: string;
+export interface AIOptions {
+  system: string;
+  prompt: string;
+  model?: string;
 }
 
-export interface BuildResult {
-  steps: BuildStep[];
-  summary: string;
-  source: "openrouter" | "mock";
-  model: string;
-}
-
-// ── OpenRouter shared config ──────────────────────────────────────
-
-const DEFAULT_MODEL = "openrouter/owl-alpha";
-const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
-
-export function aiConfigured(env: AIEnv): boolean {
-  return Boolean(env.OPENROUTER_API_KEY && env.OPENROUTER_API_KEY.trim());
-}
-
-// Alias so server routes that imported anthropicConfigured still compile
-export const anthropicConfigured = aiConfigured;
-
-async function orFetch(
-  env: AIEnv,
-  model: string,
-  messages: { role: string; content: string }[],
-  maxTokens: number,
-  temperature: number
-): Promise<string> {
-  let res: Response;
-  try {
-    res = await fetch(OPENROUTER_URL, {
+export async function aiComplete(
+  env: { OPENROUTER_API_KEY?: string; MOCK_AI?: string },
+  opts: AIOptions
+): Promise<AIResult> {
+  if (env.OPENROUTER_API_KEY) {
+    const resp = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${env.OPENROUTER_API_KEY}`,
         "Content-Type": "application/json",
+        "HTTP-Referer": "https://travis.app",
+        "X-Title": "Travis Field Service",
       },
-      body: JSON.stringify({ model, max_tokens: maxTokens, temperature, messages }),
+      body: JSON.stringify({
+        model: opts.model ?? "anthropic/claude-3-haiku",
+        messages: [
+          { role: "system", content: opts.system },
+          { role: "user", content: opts.prompt },
+        ],
+      }),
     });
-  } catch (err) {
-    throw new Error(`OpenRouter request failed: ${(err as Error).message}`);
-  }
-  if (!res.ok) {
-    const detail = await res.text().catch(() => "");
-    throw new Error(`OpenRouter error ${res.status}: ${detail.slice(0, 300)}`);
-  }
-  const data = (await res.json()) as { choices?: { message?: { content?: string } }[] };
-  const text = data.choices?.[0]?.message?.content?.trim();
-  if (!text) throw new Error("OpenRouter returned an empty response");
-  return text;
-}
 
-// ── General assistant ─────────────────────────────────────────────
+    if (!resp.ok) {
+      const body = await resp.text().catch(() => "");
+      throw new Error(`OpenRouter HTTP ${resp.status}: ${body || "no response body"}`);
+    }
 
-export async function aiComplete(env: AIEnv, opts: AICompleteOptions): Promise<AIResult> {
-  const model = opts.model || env.AI_MODEL || DEFAULT_MODEL;
-  if (!aiConfigured(env)) {
-    return { text: mockAnswer(opts.prompt), source: "mock", model };
+    const data = (await resp.json()) as {
+      choices?: { message?: { content?: string } }[];
+    };
+    const text = data.choices?.[0]?.message?.content ?? "";
+    return { text, source: "openrouter" };
   }
-  const messages = [
-    ...(opts.system ? [{ role: "system", content: opts.system }] : []),
-    { role: "user", content: opts.prompt },
-  ];
-  const text = await orFetch(env, model, messages, opts.maxTokens ?? 600, opts.temperature ?? 0.4);
-  return { text, source: "openrouter", model };
-}
 
-// ── Autonomous programmer (build planner) ─────────────────────────
-
-const BUILD_MODEL = DEFAULT_MODEL;
-const BUILD_SYSTEM = `You are an autonomous programmer embedded in Travis, a field-service business platform.
-When given a build task, respond with a structured step-by-step implementation plan in valid JSON only.
-Format your entire response as a JSON object:
-{
-  "steps": [
-    { "step": 1, "title": "Short step title", "detail": "What to do and why", "code": "optional code snippet" }
-  ],
-  "summary": "One-sentence summary of what was built"
-}
-Be concrete, production-ready, and specific to a UK trades/field-service context.
-Use TypeScript, Hono, D1 SQLite, and Preact where relevant to this stack.`;
-
-export async function aiBuild(env: AIEnv, task: string): Promise<BuildResult> {
-  if (!aiConfigured(env)) {
-    return mockBuild(task);
+  if (env.MOCK_AI === "1") {
+    return {
+      text: `[Mock AI response to: ${opts.prompt.slice(0, 120)}${opts.prompt.length > 120 ? "..." : ""}]`,
+      source: "mock",
+    };
   }
-  const model = env.AI_MODEL || BUILD_MODEL;
-  const messages = [
-    { role: "system", content: BUILD_SYSTEM },
-    { role: "user", content: task },
-  ];
-  const raw = await orFetch(env, model, messages, 2048, 0.3);
-  const jsonStr = raw.replace(/^```json\s*/i, "").replace(/```\s*$/i, "").trim();
-  let parsed: { steps: BuildStep[]; summary: string };
-  try {
-    parsed = JSON.parse(jsonStr);
-  } catch {
-    parsed = { steps: [{ step: 1, title: "Build output", detail: raw }], summary: task };
-  }
-  return { ...parsed, source: "openrouter", model };
-}
 
-// ── Mock fallbacks ────────────────────────────────────────────────
-
-function mockAnswer(prompt: string): string {
-  const p = prompt.toLowerCase();
-  if (p.includes("quote")) {
-    return "Here's a draft quote outline: itemise labour and materials, apply your 35% target margin, and add 20% VAT. (Demo mode — connect an OpenRouter key for live AI drafting.)";
-  }
-  if (p.includes("invoice") || p.includes("overdue") || p.includes("chase")) {
-    return "Suggested reminder: a polite, firm nudge referencing the invoice number, amount due and a clear payment link. (Demo mode — connect an OpenRouter key for live AI drafting.)";
-  }
-  if (p.includes("call") || p.includes("summary") || p.includes("summarise")) {
-    return "Call summary: capture caller, intent, and any follow-up action, then route to the right module. (Demo mode — connect an OpenRouter key for live AI summaries.)";
-  }
-  return "I'm Travis, your AI co-worker. I can draft quotes, chase invoices, and summarise calls. (Demo mode — add an OpenRouter API key to enable live responses.)";
-}
-
-function mockBuild(task: string): BuildResult {
-  return {
-    steps: [
-      { step: 1, title: "Define the schema", detail: "Add the relevant table(s) to schema.sql with appropriate columns. (Demo mode — connect an OpenRouter key for live build plans.)" },
-      { step: 2, title: "Create the API endpoint", detail: "Add a Hono OpenAPI route in src/server/index.ts with validation and D1 queries." },
-      { step: 3, title: "Build the UI component", detail: "Create a Preact component in src/client/components/ that fetches and displays the data." },
-    ],
-    summary: `Demo build plan for: ${task.slice(0, 80)}`,
-    source: "mock",
-    model: BUILD_MODEL,
-  };
+  throw new Error(
+    "No AI provider configured. Set OPENROUTER_API_KEY in Worker secrets, " +
+    "or set MOCK_AI=1 in .dev.vars for local development."
+  );
 }
