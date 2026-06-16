@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "eeZeHS17-_GQPepYgttrN"
+uri = "file://.local/rebase-diagnostic-handoff.md"
+type = "text"
+title = "Rebase Failure — Diagnostic Handoff"
