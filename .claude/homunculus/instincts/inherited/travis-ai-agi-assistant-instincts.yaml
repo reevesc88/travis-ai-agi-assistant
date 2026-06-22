@@ -1,0 +1,406 @@
+# Instincts generated from https://github.com/reevesc88/travis-ai-agi-assistant
+# Generated: 2026-06-16T14:33:06.736Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: travis-ai-agi-assistant-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/reevesc88/travis-ai-agi-assistant
+---
+
+# Travis Ai Agi Assistant Commit Length
+
+## Action
+
+Write moderate-length commit messages (~60 characters)
+
+## Evidence
+
+- Average commit message length: 60 chars
+- Based on 2 commits
+
+---
+id: travis-ai-agi-assistant-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/reevesc88/travis-ai-agi-assistant
+---
+
+# Travis Ai Agi Assistant Naming Files
+
+## Action
+
+Use kebab-case naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: kebab-case
+
+---
+id: travis-ai-agi-assistant-import-relative
+trigger: "when importing modules"
+confidence: 0.75
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/reevesc88/travis-ai-agi-assistant
+---
+
+# Travis Ai Agi Assistant Import Relative
+
+## Action
+
+Use relative imports for project files
+
+## Evidence
+
+- Import analysis shows relative import pattern
+- Example: import { x } from '../lib/x'
+
+---
+id: travis-ai-agi-assistant-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/reevesc88/travis-ai-agi-assistant
+---
+
+# Travis Ai Agi Assistant Export Style
+
+## Action
+
+Prefer named exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: named
+
+---
+id: travis-ai-agi-assistant-test-separate
+trigger: "when writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/reevesc88/travis-ai-agi-assistant
+---
+
+# Travis Ai Agi Assistant Test Separate
+
+## Action
+
+Place tests in the tests/ or __tests__/ directory, mirroring src structure
+
+## Evidence
+
+- Separate test directory pattern detected
+- Tests live in dedicated test folders
+
+---
+id: travis-ai-agi-assistant-workflow-agent-skill-addition-or-update
+trigger: "when doing agent skill addition or update"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/reevesc88/travis-ai-agi-assistant
+---
+
+# Travis Ai Agi Assistant Workflow Agent Skill Addition Or Update
+
+## Action
+
+Follow the agent-skill-addition-or-update workflow:
+1. Create or update SKILL.md and related documentation files in .agents/skills/<skill-name>/
+2. Add or update scripts (e.g., Python, JS) in .agents/skills/<skill-name>/scripts/
+3. Add or update references and supporting assets (images, data, schemas) in .agents/skills/<skill-name>/references/ or assets/
+4. Update LICENSE.txt and metadata files as needed
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: .agents/skills/*/SKILL.md, .agents/skills/*/README.md, .agents/skills/*/scripts/*
+
+---
+id: travis-ai-agi-assistant-workflow-project-memory-update
+trigger: "when doing project memory update"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/reevesc88/travis-ai-agi-assistant
+---
+
+# Travis Ai Agi Assistant Workflow Project Memory Update
+
+## Action
+
+Follow the project-memory-update workflow:
+1. Edit or update markdown files in project-memory/ (e.g., AGENT_INSTRUCTIONS.md, NEXT_ACTIONS.md, ENVIRONMENT_STATUS.md)
+2. Commit changes to keep project documentation up to date
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: project-memory/*.md
+
+---
+id: travis-ai-agi-assistant-instinct-file-naming
+trigger: "When creating or renaming a file in the codebase"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: reevesc88/travis-ai-agi-assistant
+---
+
+# Travis Ai Agi Assistant Instinct File Naming
+
+## Action
+
+Use kebab-case for file names
+
+## Evidence
+
+- Pattern in architecture.namingConventions.files
+- Consistent with TypeScript project conventions
+
+---
+id: travis-ai-agi-assistant-instinct-function-naming
+trigger: "When defining a function"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: reevesc88/travis-ai-agi-assistant
+---
+
+# Travis Ai Agi Assistant Instinct Function Naming
+
+## Action
+
+Use camelCase for function names
+
+## Evidence
+
+- Pattern in architecture.namingConventions.functions
+
+---
+id: travis-ai-agi-assistant-instinct-class-naming
+trigger: "When defining a class"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: reevesc88/travis-ai-agi-assistant
+---
+
+# Travis Ai Agi Assistant Instinct Class Naming
+
+## Action
+
+Use PascalCase for class names
+
+## Evidence
+
+- Pattern in architecture.namingConventions.classes
+
+---
+id: travis-ai-agi-assistant-instinct-constant-naming
+trigger: "When defining a constant"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: reevesc88/travis-ai-agi-assistant
+---
+
+# Travis Ai Agi Assistant Instinct Constant Naming
+
+## Action
+
+Use SCREAMING_SNAKE_CASE for constant names
+
+## Evidence
+
+- Pattern in architecture.namingConventions.constants
+
+---
+id: travis-ai-agi-assistant-instinct-import-style
+trigger: "When importing modules"
+confidence: 0.85
+domain: code-style
+source: repo-analysis
+source_repo: reevesc88/travis-ai-agi-assistant
+---
+
+# Travis Ai Agi Assistant Instinct Import Style
+
+## Action
+
+Use relative import paths
+
+## Evidence
+
+- Pattern in architecture.importStyle
+
+---
+id: travis-ai-agi-assistant-instinct-export-style
+trigger: "When exporting modules or functions"
+confidence: 0.85
+domain: code-style
+source: repo-analysis
+source_repo: reevesc88/travis-ai-agi-assistant
+---
+
+# Travis Ai Agi Assistant Instinct Export Style
+
+## Action
+
+Use named exports
+
+## Evidence
+
+- Pattern in architecture.exportStyle
+
+---
+id: travis-ai-agi-assistant-instinct-error-handling
+trigger: "When handling errors in code"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: reevesc88/travis-ai-agi-assistant
+---
+
+# Travis Ai Agi Assistant Instinct Error Handling
+
+## Action
+
+Use try-catch blocks for error handling
+
+## Evidence
+
+- Pattern in errorHandling.style
+
+---
+id: travis-ai-agi-assistant-instinct-test-location
+trigger: "When adding or updating tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: reevesc88/travis-ai-agi-assistant
+---
+
+# Travis Ai Agi Assistant Instinct Test Location
+
+## Action
+
+Place test files in the separate test directory as per architecture.testLocation
+
+## Evidence
+
+- Pattern in architecture.testLocation
+
+---
+id: travis-ai-agi-assistant-instinct-test-type
+trigger: "When writing tests"
+confidence: 0.7
+domain: testing
+source: repo-analysis
+source_repo: reevesc88/travis-ai-agi-assistant
+---
+
+# Travis Ai Agi Assistant Instinct Test Type
+
+## Action
+
+Write tests for both client and server code, reflecting the hybrid module organization
+
+## Evidence
+
+- Pattern in architecture.moduleOrganization
+- srcLayout includes client and server
+
+---
+id: travis-ai-agi-assistant-instinct-commit-format
+trigger: "When composing a commit message"
+confidence: 0.85
+domain: git
+source: repo-analysis
+source_repo: reevesc88/travis-ai-agi-assistant
+---
+
+# Travis Ai Agi Assistant Instinct Commit Format
+
+## Action
+
+Use a freeform commit message without a strict prefix, typically around 60 characters
+
+## Evidence
+
+- Pattern in commits.type
+- Examples: 'Working Travis field-service app snapshot (2026-06-16)'
+
+---
+id: travis-ai-agi-assistant-instinct-commit-merge
+trigger: "When merging branches"
+confidence: 0.8
+domain: git
+source: repo-analysis
+source_repo: reevesc88/travis-ai-agi-assistant
+---
+
+# Travis Ai Agi Assistant Instinct Commit Merge
+
+## Action
+
+Include the source and target branch in the commit message, and clarify merge intent (e.g., 'keep local working tree')
+
+## Evidence
+
+- Example commit: 'Merge origin/main into working snapshot (keep local working tree)'
+
+---
+id: travis-ai-agi-assistant-instinct-agent-skill-workflow
+trigger: "When a new agent skill is added or an existing one is updated"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: reevesc88/travis-ai-agi-assistant
+---
+
+# Travis Ai Agi Assistant Instinct Agent Skill Workflow
+
+## Action
+
+Create or update SKILL.md, documentation, scripts, references, assets, LICENSE.txt, and metadata in .agents/skills/<skill-name>/
+
+## Evidence
+
+- Workflow: agent-skill-addition-or-update
+- Commit sequence and files involved
+
+---
+id: travis-ai-agi-assistant-instinct-project-memory-workflow
+trigger: "When project documentation, status, or next actions need updating"
+confidence: 0.85
+domain: workflow
+source: repo-analysis
+source_repo: reevesc88/travis-ai-agi-assistant
+---
+
+# Travis Ai Agi Assistant Instinct Project Memory Workflow
+
+## Action
+
+Edit or update markdown files in project-memory/ and commit changes
+
+## Evidence
+
+- Workflow: project-memory-update
+- Commit sequence and files involved
+
