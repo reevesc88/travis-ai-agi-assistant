@@ -16,6 +16,9 @@ reviews:
       - master
   path_filters:
     - "!**/*.lock"
+    - "!**/pnpm-lock.yaml"
+    - "!**/package-lock.json"
+    - "!**/yarn.lock"
     - "!**/node_modules/**"
     - "!**/dist/**"
     - "!**/build/**"
