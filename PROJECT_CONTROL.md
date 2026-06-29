@@ -1,6 +1,6 @@
 # Travis AI — Project Control
 # Version: v0.1.0
-# Last updated: 2026-06-28
+# Last updated: 2026-06-29
 # Stack: Preact + Hono + Cloudflare Workers + D1 + R2
 
 ---
@@ -103,8 +103,9 @@ cd travis-ai-agi-assistant
 pnpm install
 
 # 3. Configure
-cp .env.example .env
-# Fill in CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_API_TOKEN, ANTHROPIC_API_KEY
+cp .dev.vars.example .dev.vars
+# Fill in ANTHROPIC_API_KEY (and OPENROUTER_API_KEY, STRIPE_*, RESEND_API_KEY as needed)
+# Note: Cloudflare Workers uses .dev.vars — wrangler dev reads this file, not .env
 
 # 4. Run
 pnpm run dev

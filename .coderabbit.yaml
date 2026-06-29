@@ -1,0 +1,25 @@
+# CodeRabbit configuration
+# Docs: https://docs.coderabbit.ai/guides/configure-coderabbit
+language: "en-AU"
+reviews:
+  profile: "assertive"
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+  auto_review:
+    enabled: true
+    drafts: true
+    base_branches:
+      - main
+      - master
+      - github-working-app-2026-06-16
+  path_filters:
+    - "!**/*.lock"
+    - "!**/pnpm-lock.yaml"
+    - "!**/package-lock.json"
+    - "!**/yarn.lock"
+    - "!**/node_modules/**"
+    - "!**/dist/**"
+    - "!**/build/**"

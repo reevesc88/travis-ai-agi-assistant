@@ -1,6 +1,6 @@
 # Travis AI — Master Task List
 # 66 tasks across 14 phases
-# Last updated: 2026-06-28
+# Last updated: 2026-06-29
 # Stack: Preact + Hono + Cloudflare Workers + D1 + R2
 
 ---
@@ -32,10 +32,10 @@
 |----|--------|----------|-------|------|
 | P1-01 | [ ] | P0 | CC | Confirm repo structure matches Blueprint (src/, frontend/, .claude/, memory/, docs/) |
 | P1-02 | [ ] | P0 | CC | Verify wrangler.toml has correct D1 + R2 + Queue bindings |
-| P1-03 | [ ] | P0 | CC | Create .env.example with all required env vars documented |
+| P1-03 | [x] | P0 | CC | Confirmed .dev.vars.example documents all required env vars (Cloudflare Workers uses .dev.vars not .env — run cp .dev.vars.example .dev.vars) |
 | P1-04 | [ ] | P0 | CC | Verify pnpm run dev starts both Vite (5000) and Wrangler (8787) |
 | P1-05 | [ ] | P1 | CC | Set up Vitest for unit tests |
-| P1-06 | [ ] | P1 | CC | Set up GitHub Actions CI (pnpm install → pnpm test → wrangler deploy dry-run) |
+| P1-06 | [~] | P1 | CC | Set up GitHub Actions CI (typecheck added; pnpm test + wrangler deploy dry-run still needed) |
 | P1-07 | [ ] | P1 | CC | Add DECISION_LOG.md entry for every choice made in Phase 0 |
 | P1-08 | [ ] | P2 | CX | Review open-fieldservice AGPL-3.0 licence obligations — confirm attribution in README |
 
