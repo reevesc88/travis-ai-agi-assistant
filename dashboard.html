@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Travis AI — Dev Dashboard</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --border: #334155;
+    --orange: #f97316;
+    --blue: #38bdf8;
+    --green: #4ade80;
+    --yellow: #facc15;
+    --red: #f87171;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'SF Mono', 'Fira Code', monospace; font-size: 14px; padding: 24px; }
+  h1 { color: var(--orange); font-size: 20px; margin-bottom: 4px; }
+  .subtitle { color: var(--muted); font-size: 12px; margin-bottom: 24px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+  .card h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 12px; }
+  .kpi { font-size: 28px; font-weight: 700; color: var(--orange); }
+  .kpi-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .phase-list { list-style: none; }
+  .phase-list li { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+  .phase-list li:last-child { border-bottom: none; }
+  .badge { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 600; white-space: nowrap; }
+  .badge-done { background: #166534; color: var(--green); }
+  .badge-active { background: #1e3a5f; color: var(--blue); }
+  .badge-blocked { background: #7f1d1d; color: var(--red); }
+  .badge-todo { background: #1e293b; color: var(--muted); border: 1px solid var(--border); }
+  .risk-list { list-style: none; }
+  .risk-list li { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+  .risk-list li:last-child { border-bottom: none; }
+  .sev-high { color: var(--red); }
+  .sev-med { color: var(--yellow); }
+  .sev-low { color: var(--green); }
+  .stack-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .stack-table td { padding: 5px 0; border-bottom: 1px solid var(--border); }
+  .stack-table td:first-child { color: var(--muted); width: 40%; }
+  .stack-table td:last-child { color: var(--blue); }
+  .footer { color: var(--muted); font-size: 11px; text-align: center; margin-top: 24px; }
+  a { color: var(--orange); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<h1>Travis AI — Dev Dashboard</h1>
+<p class="subtitle">Visual project overview · Open as static file · No server required · Last updated: 2026-06-29</p>
+
+<div class="grid">
+
+  <!-- KPIs -->
+  <div class="card">
+    <h2>Progress</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div><div class="kpi">0/14</div><div class="kpi-label">Phases complete</div></div>
+      <div><div class="kpi">66</div><div class="kpi-label">Total tasks</div></div>
+      <div><div class="kpi">2</div><div class="kpi-label">Tasks done (P0-05, P0-06)</div></div>
+      <div><div class="kpi">8</div><div class="kpi-label">Risks logged</div></div>
+    </div>
+  </div>
+
+  <!-- Stack -->
+  <div class="card">
+    <h2>Confirmed Stack</h2>
+    <table class="stack-table">
+      <tr><td>Frontend</td><td>Preact 10 + TypeScript</td></tr>
+      <tr><td>Backend</td><td>Hono 4.6 (Cloudflare Workers)</td></tr>
+      <tr><td>Database</td><td>Cloudflare D1 (SQLite)</td></tr>
+      <tr><td>File storage</td><td>Cloudflare R2</td></tr>
+      <tr><td>Async jobs</td><td>Cloudflare Queues</td></tr>
+      <tr><td>Build</td><td>Vite 6 + Wrangler 4</td></tr>
+      <tr><td>AI parsing</td><td>Claude API (claude-sonnet-4-6)</td></tr>
+      <tr><td>Package mgr</td><td>pnpm</td></tr>
+    </table>
+  </div>
+
+  <!-- Phase Gates -->
+  <div class="card" style="grid-column: span 2">
+    <h2>Phase Gate Status</h2>
+    <ul class="phase-list">
+      <li><span class="badge badge-active">IN PROGRESS</span> P0 · Workspace Consolidation — open-fieldservice audited; stack confirmed; source docs still to read on PC</li>
+      <li><span class="badge badge-todo">TODO</span> P1 · Project Setup — confirm dev environment running</li>
+      <li><span class="badge badge-todo">TODO</span> P2 · App Skeleton — adapt open-fieldservice; add Travis D1 tables</li>
+      <li><span class="badge badge-todo">TODO</span> P3 · Authentication — login/logout; Hono middleware</li>
+      <li><span class="badge badge-todo">TODO</span> P4 · Receipt Upload — R2 bucket; upload endpoint + UI</li>
+      <li><span class="badge badge-todo">TODO</span> P5 · Receipt Parsing — Queue + Claude API; PDF extraction</li>
+      <li><span class="badge badge-todo">TODO</span> P6 · Line Items — extraction; editable UI</li>
+      <li><span class="badge badge-todo">TODO</span> P7 · Categorisation — ATO categories; auto-assign + override</li>
+      <li><span class="badge badge-todo">TODO</span> P8 · Review Interface — receipt detail; inline edit</li>
+      <li><span class="badge badge-todo">TODO</span> P9 · Excel Export — Queue; xlsx generation; download</li>
+      <li><span class="badge badge-todo">TODO</span> P10 · Dashboard — KPI cards; spend chart; live D1 queries</li>
+      <li><span class="badge badge-todo">TODO</span> P11 · Testing — Vitest unit; Playwright E2E; ≥80% coverage</li>
+      <li><span class="badge badge-todo">TODO</span> P12 · Integration-Ready — OpenAPI schema published</li>
+      <li><span class="badge badge-todo">TODO</span> P13 · Documentation — user guide + API reference</li>
+    </ul>
+  </div>
+
+  <!-- Risks -->
+  <div class="card">
+    <h2>Risk Register (8 risks)</h2>
+    <ul class="risk-list">
+      <li><span>R-01 · Workers 50ms CPU limit</span> <span class="sev-high badge badge-blocked">HIGH</span></li>
+      <li><span>R-02 · D1 25 writes/sec limit</span> <span class="sev-high badge badge-blocked">HIGH</span></li>
+      <li><span>R-03 · OCR accuracy on images</span> <span class="sev-high badge badge-blocked">HIGH</span></li>
+      <li><span>R-04 · R2 storage costs at scale</span> <span class="sev-med badge badge-todo">MED</span></li>
+      <li><span>R-05 · Auth strategy undecided</span> <span class="sev-med badge badge-todo">MED</span></li>
+      <li><span>R-06 · Excel memory in Workers</span> <span class="sev-high badge badge-blocked">HIGH</span></li>
+      <li><span>R-07 · Cold start latency</span> <span class="sev-med badge badge-todo">MED</span></li>
+      <li><span>R-08 · Multi-tenancy isolation</span> <span class="sev-high badge badge-blocked">HIGH</span></li>
+    </ul>
+  </div>
+
+  <!-- Agents -->
+  <div class="card">
+    <h2>Agent Roster</h2>
+    <ul class="phase-list">
+      <li><span class="badge badge-active">ACTIVE</span> Claude Code (CC) — Builder / Implementation</li>
+      <li><span class="badge badge-todo">STANDBY</span> Codex (CX) — Code Review</li>
+      <li><span class="badge badge-todo">STANDBY</span> Antigravity (AG) — E2E Testing</li>
+      <li><span class="badge badge-todo">STANDBY</span> Hermes (HE) — Memory / Research</li>
+      <li><span class="badge badge-active">ACTIVE</span> The Conductor (TC) — Orchestrator</li>
+    </ul>
+  </div>
+
+  <!-- Immediate Actions -->
+  <div class="card">
+    <h2>Immediate Next Actions (Phase 0)</h2>
+    <ul class="phase-list">
+      <li>⬜ P0-01 · Read MyBusinessBlox overview (282k chars, chunked) — PC only</li>
+      <li>⬜ P0-02 · Read AI coding agent doc (117k chars, from line 201) — PC only</li>
+      <li>⬜ P0-03 · Unzip cost estimation archive — PC only</li>
+      <li>⬜ P0-04 · Review video file for product context — PC only</li>
+      <li>✅ P0-05 · Audit open-fieldservice repo — done</li>
+      <li>✅ P0-06 · Confirm Cloudflare stack decision — done (D-01 LOCKED)</li>
+    </ul>
+  </div>
+
+</div>
+
+<p class="footer">
+  Travis AI · AI1AU Solutions · <a href="https://ai1auslutions.com">ai1auslutions.com</a> ·
+  Recovery baseline: branch <code>github-working-app-2026-06-16</code> SHA <code>58476a0</code>
+</p>
+
+</body>
+</html>
