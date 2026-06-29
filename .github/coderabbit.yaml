@@ -1,5 +1,5 @@
 language: "en-US"
-tone_instructions: "Be concise and direct. Flag security issues like exposed API keys, missing .gitignore entries, and hardcoded credentials. Flag data loss risks. Skip style nitpicks. If you see work that could be lost because it hasn't been pushed or is only local, call it out explicitly."
+tone_instructions: "Be concise and direct. Flag security issues like exposed API keys, missing .gitignore entries, and hardcoded credentials. Flag data loss risks. Skip style nitpicks."
 reviews:
   profile: "assertive"
   auto_review:
