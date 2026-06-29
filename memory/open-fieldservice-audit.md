@@ -28,7 +28,7 @@ appliance repair, locksmith, painting, roofing, garage door.
 
 ## Directory Structure
 
-```
+```text
 open-fieldservice/
 ├── src/
 │   ├── client/          ← Preact frontend
@@ -51,7 +51,7 @@ open-fieldservice/
 ## D1 Schema (10 tables)
 
 | Table | Purpose |
-|-------|---------|
+|-------|--------|
 | customers | CRM: contact info, address, service history link |
 | technicians | Staff: name, colour code, availability |
 | service_types | Catalogue: name, duration, price, category |
@@ -108,7 +108,7 @@ open-fieldservice/
 All in src/server/index.ts (45.5 KB). Key groups:
 
 | Group | Endpoints |
-|-------|-----------|
+|-------|----------|
 | Stats | GET /api/stats |
 | Schedule | GET /api/schedule |
 | Jobs | CRUD + notes + checklist + materials |

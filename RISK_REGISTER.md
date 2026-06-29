@@ -9,7 +9,7 @@
 | ID | Risk | Severity | Probability | Impact | Mitigation | Owner | Status |
 |----|------|----------|-------------|--------|------------|-------|--------|
 | R-01 | Workers CPU 50ms limit blocks parsing/export | HIGH | CERTAIN | Critical | Cloudflare Queues for async jobs (P5-03, P9-01) | CC | Open |
-| R-02 | D1 write limit (25/sec) under load | HIGH | MEDIUM | High | Connection pooling; batch writes; Hyperdrive if needed | CC | Open |
+| R-02 | D1 write limit (25/sec) under load | HIGH | MEDIUM | High | db.batch() + transactions; queue-based writes; rate limiting | CC | Open |
 | R-03 | OCR accuracy on handwritten/low-res receipts | HIGH | HIGH | High | Manual review queue; OCR placeholder in P5-02; evaluate 3rd party OCR in Phase 11 | AG | Open |
 | R-04 | R2 storage costs at scale | MEDIUM | LOW | Medium | Set lifecycle rules; compress files; cap upload size at 10MB | CC | Open |
 | R-05 | Auth complexity — Cloudflare Access vs JWT | MEDIUM | MEDIUM | High | Decision in P3-01; document in memory/decisions.md | CC | Open |
@@ -38,8 +38,10 @@ Claude API calls, and Excel generation all exceed this limit.
 **Description:** D1 SQLite has a 25 writes/second limit per database on free tier.
 High-volume receipt uploads could hit this under load.
 
-**Mitigation:** Batch D1 writes in Queue consumers. If limit is hit in production,
-evaluate Turso (distributed SQLite) or upgrade D1 plan.
+**Mitigation:** Use `db.batch()` and transactions to group writes. Offload bulk inserts to
+Queue consumers where possible. If limit is persistently hit in production, evaluate
+Turso (distributed SQLite) or upgrade the D1 plan. Note: D1 is accessed via a Workers
+binding (no TCP connections), so connection pooling and Hyperdrive do not apply here.
 
 ---
 

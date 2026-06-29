@@ -1,5 +1,5 @@
 # Travis AI — Master Task List
-# 54 tasks across 14 phases
+# 66 tasks across 14 phases
 # Last updated: 2026-06-28
 # Stack: Preact + Hono + Cloudflare Workers + D1 + R2
 
@@ -22,7 +22,7 @@
 | P0-03 | [ ] | P1 | CC | Unzip Cost-Estimation archive and review contents |
 | P0-04 | [ ] | P2 | CC | Review 0edd31f9.mkv video for additional product context |
 | P0-05 | [x] | P0 | CC | Audit open-fieldservice base repo — captured in memory/open-fieldservice-audit.md |
-| P0-06 | [ ] | P0 | CC | Confirm or update Cloudflare stack decision in memory/decisions.md |
+| P0-06 | [x] | P0 | CC | Confirm or update Cloudflare stack decision in memory/decisions.md |
 
 ---
 
@@ -33,7 +33,7 @@
 | P1-01 | [ ] | P0 | CC | Confirm repo structure matches Blueprint (src/, frontend/, .claude/, memory/, docs/) |
 | P1-02 | [ ] | P0 | CC | Verify wrangler.toml has correct D1 + R2 + Queue bindings |
 | P1-03 | [ ] | P0 | CC | Create .env.example with all required env vars documented |
-| P1-04 | [ ] | P0 | CC | Verify pnpm run dev starts both Vite (5173) and Wrangler (8787) |
+| P1-04 | [ ] | P0 | CC | Verify pnpm run dev starts both Vite (5000) and Wrangler (8787) |
 | P1-05 | [ ] | P1 | CC | Set up Vitest for unit tests |
 | P1-06 | [ ] | P1 | CC | Set up GitHub Actions CI (pnpm install → pnpm test → wrangler deploy dry-run) |
 | P1-07 | [ ] | P1 | CC | Add DECISION_LOG.md entry for every choice made in Phase 0 |
@@ -47,10 +47,10 @@
 |----|--------|----------|-------|------|
 | P2-01 | [ ] | P0 | CC | Merge/adapt open-fieldservice src/server/schema.sql into Travis D1 schema (additive only) |
 | P2-02 | [ ] | P0 | CC | Add receipt_uploads, line_items, categories, export_history tables to schema |
-| P2-03 | [ ] | P0 | CC | Wire D1 binding in src/index.ts (Hono app entry) |
+| P2-03 | [ ] | P0 | CC | Wire D1 binding in src/server/index.ts (Hono app entry) |
 | P2-04 | [ ] | P0 | CC | Confirm all 18 open-fieldservice Preact components load without errors |
 | P2-05 | [ ] | P0 | CC | Add Travis-specific routes to Hono router (prefix /api/v1/) |
-| P2-06 | [ ] | P1 | CC | Smoke test: pnpm run dev → open localhost:5173 → confirm sidebar + dashboard render |
+| P2-06 | [ ] | P1 | CC | Smoke test: pnpm run dev → open localhost:5000 → confirm sidebar + dashboard render |
 
 ---
 
@@ -84,7 +84,7 @@
 |----|--------|----------|-------|------|
 | P5-01 | [ ] | P0 | CC | Implement PDF text extraction (Cloudflare Workers supports pdf-parse via WASM) |
 | P5-02 | [ ] | P0 | CC | Add OCR placeholder for image receipts — log to D1 with status=needs_ocr for manual review |
-| P5-03 | [ ] | P0 | CC | Create Cloudflare Queue (travis-parse-queue) — move parsing off request handler (50ms CPU limit R-07) |
+| P5-03 | [ ] | P0 | CC | Create Cloudflare Queue (travis-parse-queue) — move parsing off request handler (50ms CPU limit R-01) |
 | P5-04 | [ ] | P0 | CC | Queue consumer: extract raw text → call Claude API → store structured JSON in D1 |
 | P5-05 | [ ] | P1 | CC | Add parsing status field to receipt_uploads (pending, parsing, parsed, failed) |
 | P5-06 | [ ] | P1 | AG | Evaluate Claude API prompt for receipt parsing accuracy (target: vendor, date, total, GST) |

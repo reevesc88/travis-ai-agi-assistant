@@ -11,7 +11,8 @@ When reading the source documents (P0-01, P0-02, P0-03), log any features, requi
 or constraints discovered here. Include the source document and page/line number.
 
 Format:
-```
+
+```md
 ## [Feature Name]
 **Source:** [document name, line range]
 **Type:** [Feature / Constraint / Brand / Technical]

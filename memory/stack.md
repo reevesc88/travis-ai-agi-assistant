@@ -39,7 +39,7 @@
 
 ## Dev Ports
 - API: http://localhost:8787 (wrangler dev)
-- UI: http://localhost:5173 (vite dev)
+- UI: http://localhost:5000 (vite dev)
 - Vite proxies /api/* → localhost:8787
 
 ## Licence

@@ -6,7 +6,7 @@
 ## D-01 — Cloudflare Workers Stack
 **Date:** 2026-06-28
 **Decision:** Use Cloudflare Workers + Hono + D1 + R2 as the primary stack.
-**Rationale:** Already present in the codebase (wrangler.toml, src/index.ts, pnpm scripts).
+**Rationale:** Already present in the codebase (wrangler.toml, src/server/index.ts, pnpm scripts).
 No migration cost. Edge deployment means low latency for Australian users.
 **Alternatives considered:** Node.js + Express + PostgreSQL (higher cost, more infra to manage),
 Node.js + Fastify + PlanetScale (requires DB migration from D1).

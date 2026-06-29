@@ -21,7 +21,7 @@ Tasks that require cross-system coordination go to The Conductor.
 ## Operating Rules
 
 ### All Agents
-1. Read PROJECT_CONTROL.md and TASK_TRACKER status before starting any task
+1. Read PROJECT_CONTROL.md and TASKS.md before starting any task
 2. Claim a task by setting status to `[~]` in TASKS.md before working
 3. Write to AGENT_HANDOVER.md if blocked or handing off
 4. Never push to main or github-working-app-2026-06-16 directly
@@ -42,7 +42,7 @@ Tasks that require cross-system coordination go to The Conductor.
 
 ### Antigravity (QA)
 - Runs E2E tests in Phase 11 and on every PR to main
-- Uses Playwright against local dev (localhost:5173) or staging Workers URL
+- Uses Playwright against local dev (localhost:5000) or staging Workers URL
 - Reports failures as GitHub issues
 
 ### Hermes (Memory / Research)
@@ -56,7 +56,7 @@ Tasks that require cross-system coordination go to The Conductor.
 
 When Claude Code is blocked or a task exceeds scope, write to AGENT_HANDOVER.md:
 
-```
+```md
 ---
 HANDOVER: [date] [FROM] → [TO]
 Task: [task ID and description]
@@ -82,7 +82,7 @@ Next action: [specific recommended action]
 ## Branch Strategy
 
 | Branch | Purpose |
-|--------|---------|
+|--------|--------|
 | `github-working-app-2026-06-16` | Recovery baseline — NEVER modify |
 | `main` | Production — PRs only, no direct push |
 | `claude/travis-productivity-system-yvvcxi` | Current dev branch |

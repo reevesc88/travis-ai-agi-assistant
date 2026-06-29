@@ -109,7 +109,7 @@ cp .env.example .env
 # 4. Run
 pnpm run dev
 # API: http://localhost:8787
-# UI:  http://localhost:5173
+# UI:  http://localhost:5000
 ```
 
 ---
