@@ -14,12 +14,21 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - Visual dev dashboard: dashboard.html
 - Agent handover log: AGENT_HANDOVER.md
 - Branch claude/travis-productivity-system-yvvcxi from recovery baseline (SHA 58476a0)
+- GitHub Actions typecheck workflow (`.github/workflows/typecheck.yml`) — `tsc --noEmit` on all pushes and PRs targeting `main` or `github-working-app-2026-06-16`
+- Dependabot config (`.github/dependabot.yml`) — weekly npm + GitHub Actions updates targeting `github-working-app-2026-06-16`
+- `typecheck` script in `package.json` (`tsc --noEmit`)
+- CodeRabbit now reviews draft PRs and PRs targeting `github-working-app-2026-06-16` (updated `base_branches` + `drafts: true`)
 
 ### Fixed
 - Corrected Vite dev server port from 5173 to 5000 across all docs
 - Corrected Worker entrypoint from src/index.ts to src/server/index.ts
 - Fixed task count header (66, not 54)
 - Fixed RISK_REGISTER.md R-02 mitigation (removed incorrect connection-pooling/Hyperdrive references)
+
+### Security
+- Removed `.env.example` — wrong pattern for Cloudflare Workers stack; use `cp .dev.vars.example .dev.vars` instead
+- Added `.env` to `.gitignore` (defence-in-depth; Workers reads `.dev.vars`, not `.env`)
+- Updated `PROJECT_CONTROL.md` Quick Start to reference `.dev.vars.example`
 
 ---
 
