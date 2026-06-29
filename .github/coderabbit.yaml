@@ -7,10 +7,12 @@ reviews:
     drafts: true
     base_branches: ["main", "master"]
   path_filters:
-    - "!*.lock"
-    - "!venv/**"
-    - "!node_modules/**"
-    - "!frameworks/**"
+    - "!**/*.lock"
+    - "!**/venv/**"
+    - "!**/node_modules/**"
+    - "!**/frameworks/**"
+    - "!**/dist/**"
+    - "!**/build/**"
   finishing_touches:
     docstrings:
       enabled: false
