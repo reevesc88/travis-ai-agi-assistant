@@ -1,0 +1,49 @@
+name: Request AI Code Reviews
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  request-reviews:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = context.payload.pull_request.number;
+            const { owner, repo } = context.repo;
+
+            try {
+              await github.rest.pulls.requestReviewers({
+                owner, repo, pull_number: pr,
+                reviewers: ['coderabbitai']
+              });
+              core.info('CodeRabbit review requested');
+            } catch (e) {
+              core.warning('Could not request coderabbitai reviewer: ' + e.message);
+            }
+
+            try {
+              await github.rest.pulls.requestReviewers({
+                owner, repo, pull_number: pr,
+                reviewers: ['google-gemini']
+              });
+              core.info('Gemini Code Assist review requested');
+            } catch (e) {
+              core.warning('Could not request google-gemini reviewer: ' + e.message);
+            }
+
+            try {
+              await github.rest.issues.createComment({
+                owner, repo, issue_number: pr,
+                body: '@coderabbitai review'
+              });
+              core.info('CodeRabbit comment trigger posted');
+            } catch (e) {
+              core.warning('Could not post CodeRabbit trigger comment: ' + e.message);
+            }

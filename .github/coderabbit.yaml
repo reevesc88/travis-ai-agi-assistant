@@ -1,24 +1,24 @@
-# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
 language: "en-US"
-tone_instructions: "Be concise. Focus on bugs, security, and correctness. Flag D1 migration safety issues (no DROP TABLE). Skip style nitpicks."
-early_access: false
+tone_instructions: "Be concise and direct. Flag security issues like exposed API keys, missing .gitignore entries, and hardcoded credentials. Flag data loss risks. Skip style nitpicks. If you see work that could be lost because it hasn't been pushed or is only local, call it out explicitly."
 reviews:
-  profile: "chill"
-  request_changes_workflow: false
-  high_level_summary: true
-  poem: false
-  review_status: true
-  collapse_walkthrough: true
+  profile: "assertive"
   auto_review:
     enabled: true
-    drafts: false
-    base_branches:
-      - "main"
-      - "master"
+    drafts: true
+    base_branches: ["main", "master"]
   path_filters:
-    - "!**/*.lock"
-    - "!**/node_modules/**"
-    - "!**/dist/**"
-    - "!**/build/**"
+    - "!*.lock"
+    - "!venv/**"
+    - "!node_modules/**"
+    - "!frameworks/**"
+  finishing_touches:
+    docstrings:
+      enabled: false
+  review_status: true
+  poem: false
+  collapse_walkthrough: false
+  sequence_diagrams: false
 chat:
   auto_reply: true
+knowledge_base:
+  opt_out: false
